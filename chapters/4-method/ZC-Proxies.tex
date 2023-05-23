@@ -12,7 +12,7 @@ The Gradient Norm is a straightforward zero-cost proxy that computes the sum of 
 \subsection{SNIP}
 The \gls{SNIP} method was introduced by \autocite{lee2018snip} as a pruning-at-initialisation technique, aiming to reduce the number of parameters within a neural network without affecting the accuracy during inference \autocite{frankle2020pruning}. The authors proposed a data-dependent saliency criterion that identifies significant connections in the network related to the current task before training. This approach enables the pruning of redundant connections, thus reducing the neural network's parameter count. The connections are identified based on their influence on the loss function.
 
-\noindent In the paper Zero-Cost Proxies for Lightweight NAS \autocite{abdelfattah2021zero}, SNIP was repurposed as a zero-cost proxy. The score of the neural network was obtained by summing all parameters $N$ in the model according to \cref{eq:sumsnip},
+\noindent In the paper Zero-Cost Proxies for Lightweight \gls{NAS} \autocite{abdelfattah2021zero}, \gls{SNIP} was repurposed as a zero-cost proxy. The score of the neural network was obtained by summing all parameters $N$ in the model according to \cref{eq:sumsnip},
 
 \begin{equation}\label{eq:sumsnip}
 S_n = \sum_{i=1}^N S_p(\theta)_i
@@ -25,11 +25,11 @@ S_p(\theta) = \left|\frac{\partial L}{\partial \theta} \odot \theta\right|
 where $L$ is the loss function, \(\theta \) represents the parameters of the neural network, and \(\odot\) denotes the Hadamard product.
 
 \subsection{GRASP}
-Like SNIP, \gls{GRASP} is a pruning-at-initialisation technique. The authors argue that efficient training depends on preserving the gradient flow, from which the name gradient signal preservation comes. Therefore, GRASP aims at finding the sub-networks as initialisation rather than after training. This is done by pruning the weights whose removal will cause a minor fall in the gradient norm after pruning \autocite{wang2020picking}. 
+Like \gls{SNIP}, \gls{GRASP} is a pruning-at-initialisation technique. The authors argue that efficient training depends on preserving the gradient flow, from which the name gradient signal preservation comes. Therefore, \gls{GRASP} aims at finding the sub-networks as initialisation rather than after training. This is done by pruning the weights whose removal will cause a minor fall in the gradient norm after pruning \autocite{wang2020picking}. 
 
 
 \subsection{Synflow}
-\gls{Synflow}, originally proposed in \autocite{tanaka2020pruning}, is a method for parameter pruning. By pruning less significant parameters, highly sparse networks can be obtained with reduced network size while maintaining similar accuracy. Synflow is built on three main principles: avoiding layer collapse, conservation of synaptic saliency, and magnitude pruning.
+\gls{Synflow}, originally proposed in \autocite{tanaka2020pruning}, is a method for parameter pruning. By pruning less significant parameters, highly sparse networks can be obtained with reduced network size while maintaining similar accuracy. \gls{Synflow} is built on three main principles: avoiding layer collapse, conservation of synaptic saliency, and magnitude pruning.
 
 \noindent Layer collapse occurs when an algorithm prunes all parameters in a single weight layer, even when prunable parameters remain elsewhere in the network. This makes the network untrainable, as evidenced by sudden drops in achievable accuracy \autocite{tanaka2020pruning}. Therefore, it is crucial to avoid layer collapse since the network will become unusable if a layer is removed.
 
@@ -41,11 +41,11 @@ S(\theta) = \frac{\partial R}{\partial \theta} \odot \theta
 \end{equation}
 where $R$ is a scalar loss function of the output $y$ of a feed-forward network parameterized by $\theta$ \autocite{tanaka2020pruning}. The conservation of synaptic saliency theorem demonstrates that the sum of synaptic saliency for all incoming parameters to a hidden neuron equals the sum of the synaptic saliency for the outgoing parameters from the hidden neuron \autocite{tanaka2020pruning}. Consequently, the sum of synaptic saliency for all incoming parameters to a hidden layer equals the sum of the synaptic saliency for the outgoing parameters from the hidden layer. This can lead to issues when performing one-shot pruning, where a larger layer would have parameters with lower synaptic saliency. In comparison, a smaller layer would have parameters with higher synaptic saliency. Pruning one of the parameters for a smaller layer would result in pruning almost all the parameters in a larger layer to compensate for the conservation of synaptic saliency, leading to layer collapse.
 
-\noindent To prevent this, Synflow introduces iterative pruning (magnitude pruning) by recalculating the synaptic saliency for all parameters at each iteration. This re-evaluation process gives new scores to parameters with lower scores in previous iterations, eliminating the imbalance between smaller and larger layers and reducing the possibility of layer collapse.
+\noindent To prevent this, \gls{Synflow} introduces iterative pruning (magnitude pruning) by recalculating the synaptic saliency for all parameters at each iteration. This re-evaluation process gives new scores to parameters with lower scores in previous iterations, eliminating the imbalance between smaller and larger layers and reducing the possibility of layer collapse.
 
-\noindent The Synflow algorithm is described in \cref{eq:synflowalg}:
+\noindent The \gls{Synflow} algorithm is described in \cref{eq:synflowalg}:
 
-\begin{equation}\label{eq:synflowalg}
+\begin{equation}\label{eq:\gls{synflow}alg}
 R_{SF} = \mathbbm{1}^T \left( \prod^L_{l=1} |\theta^{[l]}| \right) \mathbbm{1}
 \end{equation}
 
@@ -74,7 +74,7 @@ The Jacov-score is a zero-cost proxy that estimates architecture performance by 
 \label{eq:jacov}
 \end{equation}
 
-where $k$ is a small constant. The Jacov-score offers an efficient performance evaluation in NAS without extensive computation.
+where $k$ is a small constant. The Jacov-score offers an efficient performance evaluation in \gls{NAS} without extensive computation.
 
 
 \subsection{NAS-WOT}
@@ -106,7 +106,7 @@ Because of matrix instability, a small epsilon was added to the diagonal to make
 As a zero-cost proxy, \Gls{FLOPs} is one of the simpler baselines as it simply goes through the model and calculates the number of floating point operations performed per second required to pass the input through the network. Therefore it could be considered a measure of the architecture's complexity \autocite{ning2021evaluating}. 
 
 \subsection{Params}
-Within a neural network, there exist several trainable parameters, which, similarly to FLOPs, are considered a measure of the architecture's complexity \autocite{ning2021evaluating}. 
+Within a neural network, there exist several trainable parameters, which, similarly to \gls{FLOPs}, are considered a measure of the architecture's complexity \autocite{ning2021evaluating}. 
 
 \subsection{EPE-NAS}
 EPE-NAS is a method to estimate an untrained architecture without requiring any training. The main idea behind the method is to assess how the network's gradients behave concerning the neural network's input. Thus, the need for training an entire network is eliminated \autocite{lopes2021epe}. 
@@ -173,7 +173,7 @@ L2-norm is calculated by summing over the norm of all weights of each layer in a
 The Plain-score is simply looping through all layers of the network. If the layer's weight contains a gradient, the gradient is multiplied by the layer's weights. Ultimately, the method is summing the scores to obtain the final score. 
 
 \subsection{Zen-score}
-Zen-score is a measure of the expressivity of the network, which is computationally efficient and correlates positively with the model accuracy \autocite{lin2021zen}. Zen-score builds upon the expected Gaussian complexity ($\Phi$-score), which can define the expressivity of a \Gls{VCNN}. In theoretical investigations, VCNN is a frequently used prototype in which several convolutional layers are stacked to form the main body of the network. Each layer has a convolutional operator followed by a ReLU activation function, where residual links and Batch Normalisation are excluded. A global average pool layer (GAP) brings the feature map resolution down to 1 x 1 before a fully-connected layer  \autocite{lin2021zen}.  
+Zen-score is a measure of the expressivity of the network, which is computationally efficient and correlates positively with the model accuracy \autocite{lin2021zen}. Zen-score builds upon the expected Gaussian complexity ($\Phi$-score), which can define the expressivity of a \Gls{VCNN}. In theoretical investigations, \gls{VCNN} is a frequently used prototype in which several convolutional layers are stacked to form the main body of the network. Each layer has a convolutional operator followed by a ReLU activation function, where residual links and Batch Normalisation are excluded. A global average pool layer (GAP) brings the feature map resolution down to 1 x 1 before a fully-connected layer  \autocite{lin2021zen}.  
 
 However, numerical overflow may occur for deep networks when directly calculating the $\Phi$-score because of gradient explosion without batch normalisation layers \autocite{lin2021zen}. Zen-Score addresses this problem by adding batch normalisation layers and re-scaling the $\Phi$-score by some constant. 
 

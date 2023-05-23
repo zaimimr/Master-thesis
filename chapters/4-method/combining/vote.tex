@@ -46,7 +46,7 @@ The majority vote method, introduced by \cite{abdelfattah2021zero}, is an approa
 \end{algorithm}
 
 
-Given that it is uncertain which combination of zero-cost proxies would yield the best results, the authors developed a function to generate all possible subsets of the 14 zero-cost proxy metrics. Subsequently, the majority vote for each subset was calculated and compared to the ground truth provided by the validation accuracy of every trained architecture in the benchmark. For example, \cref{tab:example_architectures} displays two architectures with given values for three zero-cost proxies (synflow, SNIP and Grad Sign) and their validation accuracy. 
+Given that it is uncertain which combination of zero-cost proxies would yield the best results, the authors developed a function to generate all possible subsets of the 14 zero-cost proxy metrics. Subsequently, the majority vote for each subset was calculated and compared to the ground truth provided by the validation accuracy of every trained architecture in the benchmark. For example, \cref{tab:example_architectures} displays two architectures with given values for three zero-cost proxies (\gls{synflow}, \gls{SNIP} and Grad Sign) and their validation accuracy. 
 
 \begin{table}[h]
 \centering
@@ -73,4 +73,4 @@ By examining the validation accuracy, one can deduce that Architecture 2 is supe
 \item \textbf{GradSign}: Architecture 1 $(0.28) <$ Architecture 2 $(0.36)$
 \end{itemize}
 
-In this case, one positive difference (Synflow) and two negative differences (SNIP and Grad Sign). Consequently, the majority vote favours Architecture 2, consistent with the validation accuracy.
+In this case, one positive difference (\gls{Synflow}) and two negative differences (\gls{SNIP} and Grad Sign). Consequently, the majority vote favours Architecture 2, consistent with the validation accuracy.

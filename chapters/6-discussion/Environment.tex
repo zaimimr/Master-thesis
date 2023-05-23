@@ -1,7 +1,7 @@
 \section{Environmental Implications}
 \subsection{Energy consumption / Creating benchmark}
 
-As elaborated in \cref{subsec:experimentalsetup}, 693 neural network architectures were trained and evaluated to obtain their validation accuracy for later use in experiments. The training process required a significant investment of computational resources, and multiple GPUs were used to complete the training. A Python script was utilised to capture the total training time in seconds to measure the training time for each architecture accurately.
+As elaborated in \cref{subsec:experimentalsetup}, 693 neural network architectures were trained and evaluated to obtain their validation accuracy for later use in experiments. The training process required a significant investment of computational resources, and multiple \glspl{GPU} were used to complete the training. A Python script was utilised to capture the total training time in seconds to measure the training time for each architecture accurately.
 
 \begin{equation*} 32833726.233713627 \div 3600 = 9120.4795093649 \end{equation*}
 
@@ -9,9 +9,9 @@ As elaborated in \cref{subsec:experimentalsetup}, 693 neural network architectur
     9120.4795093649 \div 24 = 380
 \end{equation*}
 
-So in total, 380 GPU days were used to obtain the benchmark for the experiments. 
+So in total, 380 \gls{GPU} days were used to obtain the benchmark for the experiments. 
 
-For contextual comparison, NASBench-101 is a benchmark for NAS introduced by \autocite{ying2019bench}. The benchmark contains many convolutional neural networks (CNN) architectures trained and evaluated on the CIFAR-10 dataset using over 100 TPU \footnote{Tensor Processing Unit introduced by Google purposely designed for machine learning workloads} years of computation time. 
+For contextual comparison, NASBench-101 is a benchmark for \gls{NAS} introduced by \autocite{ying2019bench}. The benchmark contains many \gls{CNN} architectures trained and evaluated on the CIFAR-10 dataset using over 100 TPU \footnote{Tensor Processing Unit introduced by Google purposely designed for machine learning workloads} years of computation time. 
 
 \subsection{Reduced Search Time and Future Benefits}
 
@@ -22,9 +22,9 @@ For contextual comparison, NASBench-101 is a benchmark for NAS introduced by \au
 \end{itemize}
 \end{comment}
 
-Creating a benchmark involves substantial time and energy investments, as demonstrated in this study and other benchmarks \autocite{dong2020bench, ying2019bench, tu2021bench}. In addition, training and evaluating diverse neural network architectures requires significant computational resources, leading to increased energy consumption and longer training durations. Therefore, although the research required a considerable investment in GPU days, the long-term benefits of this investment should be considered. 
+Creating a benchmark involves substantial time and energy investments, as demonstrated in this study and other benchmarks \autocite{dong2020bench, ying2019bench, tu2021bench}. In addition, training and evaluating diverse neural network architectures requires significant computational resources, leading to increased energy consumption and longer training durations. Therefore, although the research required a considerable investment in \gls{GPU} days, the long-term benefits of this investment should be considered. 
 
-The most naive approach for any general NAS algorithm is to generate a set of candidate architectures, train them until convergence, and find the best-performing architecture. However, this approach is computationally infeasible when the search space is ample. In addition, this specific approach exhibits a substantial carbon footprint because of its extensive usage of GPU days. This study and similar studies \autocite{abdelfattah2021zero, colin2022adeeperlook} have discussed how zero-cost proxies might be used within a NAS algorithm to speed up the search process significantly. Consequently, creating a benchmark for exploring the possibilities of reducing the computationally heavy search process should be considered as a small investment for a more significant impact. The investment can be perceived as a stepping stone towards developing more efficient and sustainable approaches in the long run.
+The most naive approach for any general \gls{NAS} algorithm is to generate a set of candidate architectures, train them until convergence, and find the best-performing architecture. However, this approach is computationally infeasible when the search space is ample. In addition, this specific approach exhibits a substantial carbon footprint because of its extensive usage of \gls{GPU} days. This study and similar studies \autocite{abdelfattah2021zero, colin2022adeeperlook} have discussed how zero-cost proxies might be used within a \gls{NAS} algorithm to speed up the search process significantly. Consequently, creating a benchmark for exploring the possibilities of reducing the computationally heavy search process should be considered as a small investment for a more significant impact. The investment can be perceived as a stepping stone towards developing more efficient and sustainable approaches in the long run.
 
 \begin{comment}
     

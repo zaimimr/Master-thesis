@@ -1,5 +1,5 @@
 \subsection{Auto-GNN}
 
-\Gls{Auto-GNN} is a proposed method for automatically finding an optimal architecture of graph neural networks for a given graph-based task presented by \cite{zhou2019auto}. It is one of the earlier papers within GCN-NAS. The technique uses a reinforcement learning-based approach to search for an architecture that maximises task performance. Auto-GNN uses an RL agent to learn how to select and combine various GCN layers to construct an optimal GNN architecture. 
+\Gls{Auto-GNN} is a proposed method for automatically finding an optimal architecture of graph neural networks for a given graph-based task presented by \cite{zhou2019auto}. It is one of the earlier papers within \gls{GCN}-\gls{NAS}. The technique uses a reinforcement learning-based approach to search for an architecture that maximises task performance. \gls{Auto-GNN} uses an RL agent to learn how to select and combine various \gls{GCN} layers to construct an optimal \gls{GNN} architecture. 
 
 The RL agent compiles the candidate architecture before the architecture can be trained on a graph classification task. During the training, the agent uses the model's accuracy on the validation set as the reward signal. As a result, the process is highly time-consuming as it requires training the network for multiple iterations of training and evaluations. 

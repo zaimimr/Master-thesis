@@ -1,0 +1,46 @@
+\subsection{Performance Estimation}
+\subsubsection{Performance Predictors}\label{sec:performancepredictors}
+As mentioned in \cref{section:nas}, NAS aims to automate the process of designing high-performing neural networks. However, this often requires training all the candidate networks, either partly or wholly, to get the accuracy of the neural networks. In most cases, this is an infeasible approach when the search space is big, which is why performance predictors are introduced \autocite{akhauri2022evolving}. 
+
+Any function that forecasts the eventual accuracy or ranking of architectures without fully training the architecture is referred to as a performance predictor $f$. Therefore, the performance predictor's function should take significantly less time than training and validating the neural network fully and have a high correlation or rank correlation with the validation error \autocite{white2021powerful}. 
+
+A performance predictor is defined by two main routines - initialisation and query. The initialisation routine does some general pre-computation, often before the NAS algorithm. For model-based methods, the initialisation routine consists of fully training a set of architectures to get data points. Then, the query routine will output the predicted accuracy with the architecture details as input \autocite{white2021powerful}. 
+
+There exist multiple categories of performance predictors:
+
+\begin{table}[h]
+\caption{List of performance predictors}
+\centering
+\begin{tabular}{|l}
+Model-based (trainable) methods \\
+\cellcolor{verylightgray}Learning curve-based methods    \\
+Hybrid methods                  \\
+\cellcolor{verylightgray}Zero-cost proxies               \\
+Weight sharing methods         
+\end{tabular}
+\end{table}
+
+\subsubsection{Zero-Cost Proxies}\label{subsec:zerocost}
+Zero-cost proxies are a class of performance predictors. The name zero-cost comes from analysing a neural network at initialisation, indicating that it costs 'zero' to generate the score. At the same time, the predicted accuracy is closely correlated with the actual accuracy. 
+
+By performing a single forward/backward propagation pass using a single minibatch of data, zero-cost proxies methods can score a neural network \autocite{akhauri2022evolving}. The intuition is that one can measure the 'trainability' of a neural network by looking at the initial gradient flow. 
+
+The paper \textit{Zero-Cost Proxies for Lightweight NAS}, \autocite{abdelfattah2021zero} showed the usefulness of a range of zero-cost proxies inspired by the pruning-at-initialisation literature. Each method can be divided into two categories - data-independent or data-dependent. 
+
+Data-dependent zero-cost proxies use data to generate the score, whereas data-independent will not use the dataset in principle. Sometimes, it is used to set dimensions \autocite{colin2022adeeperlook}. \Cref{tab:zcproxies} lists data-independent and data-dependent zero-cost proxies. However, this collection is not exhaustive, and additional zero-cost proxies are not included. 
+
+
+\begin{table}[ht]
+    \caption{Different zero-cost proxies within the two categories data-independent and data-dependent}
+    \centering
+    \begin{tabular}{l|l}
+    \textbf{Data-independent}         & \textbf{Data-dependent} \\ \hline
+    Synflow & EPE-NAS                   \\
+    \cellcolor{verylightgray}Zen-score                       & \cellcolor{verylightgray}Fisher                    \\
+    GenNAS                          & Grad-norm                 \\
+    \cellcolor{verylightgray}number of parameters in network & \cellcolor{verylightgray}Grasp                                 
+    \end{tabular}
+    \label{tab:zcproxies}
+\end{table}
+
+

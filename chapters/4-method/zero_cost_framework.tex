@@ -1,0 +1,39 @@
+\section{Zero-Cost Framework}\label{sec:zc-framework}
+
+A novel Zero-Cost framework was created to calculate the scores of each zero-cost proxy. The framework, influenced by \cref{abdelfattah}, has been developed as a versatile plug-and-play solution easily integrated into any NAS project. The primary goal of this framework is to provide an efficient and effective means of using zero-cost proxies for performance prediction. These proxies are described in detail in \cref{zcproxies}.
+
+\begin{algorithm}
+    \begin{algorithmic}[1]
+        \caption{Calcuate Zero-Cost Proxies}\label{alg:zc_framework}
+        \Require model, dataLoader, lossFunction, override
+        \State scoreStore $\gets$ Initialise store
+        \State proxies $\gets$ getProxies() \Comment{Get all implemented proxies}
+        \\
+        \For{proxy in proxies}
+            \If{override is not empty}
+                \If{proxy not in override}
+                    \State skip
+                \EndIf
+            \EndIf
+            \\
+            \State startTime $\gets$ now()
+            \State score $\gets$ proxy.calculateProxy(model, dataLoader, lossFunction)
+            \State scoreStore.proxy.time $\gets$ $\text{now()}-\text{startTime}$
+            \State scoreStore.proxy.score $\gets$ score
+        \EndFor
+        \\
+        \State \Return scoreStore
+        
+    \end{algorithmic}
+\end{algorithm}
+
+\Cref{alg:zc_framework} outlines calculating Zero-Cost proxies for a given model. The algorithm takes four inputs: the model, a data loader, a loss function, and an optional override parameter. The model represents the neural network architecture under evaluation, while the data loader and the loss function are used for calculating the proxy metrics. The optional override parameter allows users to calculate only specified proxies selectively.
+
+An empty \textit{scoreStore} is initialised to keep track of the calculated scores and the time taken for each proxy. The algorithm then retrieves all the available proxy implementations using the \textit{getProxies()} function. Next, a loop iterates through each proxy, and if the optional override parameter is not empty, it checks whether the current proxy is included in the override list. If the proxy is not in the list, it is skipped, and the loop continues to the next proxy.
+
+For each selected proxy, the algorithm records the start time. Then, it calculates the proxy score using the \textit{calculateProxy()} function with the model, data loader, and loss function as inputs. After calculating the score, the algorithm computes the time taken by subtracting the start time from the current time. Each proxy's calculated score and time are stored in the \textit{scoreStore}.
+
+\begin{comment}
+    
+Finally, the \textit{scoreStore} containing scores and computation times for all the calculated proxies is returned. This information can be utilised by NAS projects to predict the performance of various architectures efficiently without the need for expensive training or evaluation processes. In addition, the plug-and-play nature of the framework allows researchers and developers to easily integrate it into their projects, making performance prediction more accessible and reliable.
+\end{comment}

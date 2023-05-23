@@ -1,0 +1,12 @@
+\subsection{NAS Bench Suite Zero}
+\cite{krishnakumar2022bench} evaluated 13 zero-cost proxies on 28 different tasks and is thus the most extensive dataset for zero-cost proxies in the literature. This dataset may be vital in conducting faster experiments of zero-cost proxies as it offers precomputed zero-cost proxies scores on all tasks. To demonstrate the usefulness of the dataset, the authors conducted significant analyses of the different proxies, such as a bias analysis. 
+
+The article demonstrates that a technique is available to enhance the efficiency of a zero proxy by reducing biases. In this situation, biases may include a tendency to prefer more extensive architectures or those with more convolutions. In the paper, the authors consider the following biases: 
+\begin{itemize}
+    \item{conv:pool}
+    \item{cell size}
+    \item{num. skip connections}
+    \item{num. parameters}
+\end{itemize}
+
+Through their research, they find that although many zero-cost proxies demonstrate different forms of biases to varying degrees, it is possible to reduce these biases and thus enhance their performance.

@@ -1,0 +1,36 @@
+
+\section{Supervised Learning}
+\subsection{Recursive Feature Elimination with Cross-Validation}
+This section presents the feature selection results using Recursive Feature Elimination with Cross-Validation (RFECV) and its impact on the model's performance. Our initial dataset consists of 14 zero-cost proxy features, and our goal is to identify the optimal subset of features that would lead to the highest R2 score in our regression model.
+
+We employed the RFECV algorithm for feature selection, which iteratively eliminates the least essential features from the dataset based on their importance, as determined by the model's coefficients or feature importances. The model performance is evaluated using cross-validation at each iteration, and the optimal number of features is chosen based on the highest R2 score.
+
+Upon applying the RFECV algorithm, only one feature was selected as optimal, implying that this single feature provides the highest R2 score during cross-validation. However, the resulting R2 score on the test set is 0.14, indicating that the selected feature explains only a tiny portion of the variance in the target variable.
+
+\subsection{Pointwise Ranking with Regression and Cross-Validation}
+
+\kommentar{Hvor er det mentioned??}{}
+
+As mentioned in \cref{}, one approach used supervised learning with pointwise ranking and cross-validation to assess the performance of combining zero-cost proxies. Our analysis involved training a linear regression model to predict the performance of various GCN architectures based on the combined zero-cost proxy features. We then ranked the architectures based on their predicted performance scores and evaluated the ranking quality using measures such as Mean Squared Error (MSE) and Normalized Discounted Cumulative Gain (NDCG). The results are presented for the approach without cross-validation and the refined approach with cross-validation.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\textbf{Evaluation Method}             & \textbf{Mean Squared Error} \\ \hline
+\multicolumn{1}{l|}{Without Cross-Validation} & 0.00108281          \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}With Cross-Validation} & \cellcolor{verylightgray}0.00145585 \\ \hline
+\end{tabular}
+\begin{tabular}{ll}
+\textbf{Evaluation Method}             & \textbf{NDCG} \\ \hline
+\multicolumn{1}{l|}{Without Cross-Validation} & 0.9999999999999997          \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}With Cross-Validation} & \cellcolor{verylightgray}0.9999999999999997 \\ \hline
+\end{tabular}
+\caption{Comparison of pointwise ranking results with and without cross-validation}
+\label{tab:ranking_results}
+\end{table}
+
+
+\Cref{tab:ranking_results} summarizes the results of our experiments. The Mean Squared Error (MSE) and Normalized Discounted Cumulative Gain (NDCG) scores are reported for both the original approach without cross-validation and the approach with cross-validation.
+
+Without cross-validation, the model achieved an MSE of 0.00108281 and an NDCG score of 0.9999999999999997. When using cross-validation, the model achieved an MSE of 0.00145585 and an NDCG score of 0.9999999999999997 (averaged over cross-validation folds).
+

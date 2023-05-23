@@ -1,0 +1,37 @@
+\section{Significance of Results}
+
+Discuss the importance of your findings and their potential impact on the field of neural architecture search with graph convolutional networks for human action recognition. Consider the practical implications of using zero-cost proxies for ranking GCN architectures and in a warm-up approach.
+
+\begin{comment}
+\subsection{RQ1:}
+
+Har lagt til dette i første kap om RQ 1. 
+\end{comment}
+\begin{comment}
+\subsection{RQ2:}
+The findings from this study carry significant implications for the field of NAS, particularly in terms of performance estimation and computational efficiency working with GCN. By identifying the optimal warm-up points for different zero-cost proxies, we can potentially halt the training process much earlier than traditionally done, without sacrificing the accuracy and reliability of performance estimation.
+
+This early stopping of training can lead to substantial reductions in computational workload and search costs, making the NAS process more efficient and accessible to a wider range of researchers and practitioners. Additionally, the improved performance prediction facilitated by the warm-up phase enables more effective exploration of the search space in NAS, leading to the discovery of better architectures. 
+
+Notably, the reduced computational demands also result lessening the environmental impact. By decreasing the training time and computational resources required for NAS, we can significantly lower the energy consumption and the associated carbon footprint of the process. This aligns with the growing global concern for sustainable practices in artificial intelligence research and development.
+
+In conclusion, the results of this study provide a solid foundation for further research into the application of warm-up with zero-cost proxies in NAS. Future studies could investigate the generalizability of these findings across different datasets and tasks or explore ways to combine multiple zero-cost proxies for even more accurate and reliable performance estimation.
+
+\end{comment}
+\begin{comment}
+\subsection{RQ3:}
+
+The results of this study have significant implications for the field of Neural Architecture Search (NAS) and its applications. By effectively combining zero-cost proxies, we can improve the efficiency and accuracy of architecture search, thus reducing the computational demands and enabling more rapid progress in the field. By guiding the NAS algorithms towards more promising regions of the search space, researchers can develop better-performing neural network architectures, which in turn can be applied to various real-world problems, such as image recognition, natural language processing, and more.
+
+Furthermore, the study provides insights into the predictive capacity of each individual proxy in relation to the ground truth (validation accuracy). This understanding can inform the development of more efficient and effective NAS approaches by focusing on the most predictive zero-cost proxies.
+
+\section{Alternative Methods and Future Directions}
+
+While the majority vote method and the weighted arithmetic mean method have proven to be effective in this study, other techniques could be explored in future research to further enhance the efficiency and accuracy of architecture search in NAS algorithms.
+
+One such approach is the use of supervised learning models, such as neural networks or decision trees, to combine the zero-cost proxies. These models could be trained on a set of candidate architectures, with their zero-cost proxy metrics as features and their validation accuracy as the target variable. Once trained, these models could be employed to predict the performance of untrained architectures based on their zero-cost proxy metrics, thus providing a more efficient means of ranking candidate architectures.
+
+Furthermore, an unsupervised learning approach, such as clustering, could be employed to group candidate architectures based on their zero-cost proxy metrics. By identifying clusters of architectures with similar performance characteristics, NAS algorithms could be guided towards more promising regions of the search space, potentially improving search efficiency.
+
+Another avenue for future research is the development of new zero-cost proxy metrics that better capture the performance characteristics of neural networks. By identifying metrics with stronger correlations to validation accuracy, the efficacy of combined zero-cost proxy metrics can be further improved.
+\end{comment}

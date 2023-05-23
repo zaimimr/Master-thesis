@@ -1,0 +1,52 @@
+\begin{comment}
+\subsection{Supervised Learning}
+Aggregating zero-cost proxies offers a promising avenue for enhancing the performance estimation process in NAS algorithms. Supervised learning, a widely-used machine learning paradigm, is well-suited for this task. It can effectively learn the relationship between the zero-cost proxies and the validation accuracy, allowing for the combination of their predictive powers.
+
+The rationale behind using supervised learning for combining zero-cost proxies lies in its ability to exploit the complementary information provided by each proxy, leading to better generalization and improved predictive performance. By training a model to predict the validation accuracy based on the available proxies, supervised learning can capture the underlying patterns and relationships in the data, resulting in a more reliable and robust performance estimator.
+
+The authors use a Microsoft-developed framework called FLAML (A Fast Library for Automated Machine Learning & Tuning) \autocite{wang2021flaml} to obtain a well-performing model. The framework can find accurate machine learning models efficiently and accurately so that the users do not need to select models and hyperparameters for each model to be trained. Especially on common machine learning tasks like classification and regression, FLAML can find adequate architectures with lower computational resources.  
+
+\subsubsection{Dataset}
+The dataset used in the experiment consists of approximately 150 data points. The features are the calculated zero-cost proxies, and the target variable is the validation accuracy of the fully trained architecture. While this is sufficient to perform some machine learning tasks, it may be considered a limitation in some contexts. A larger dataset could yield more accurate and reliable results, especially for complex problems. As noted by \cite{brownlee2018data}, having at least several hundred examples per class for classification problems can provide a good starting point, and the knee of the curve for the benefit of adding more data typically occurs at several thousand examples \autocite{domingos2012useful}. For instance, one data-point looks like this:  
+
+\begin{lstlisting}[language=json, caption=Datapoint in dataset]
+{
+    "plain": 2.664778470993042,
+    "params": 4891572,
+    "flops": 1564095796800,
+    "synflow": 501673875967120.9,
+    "snip": 53.6790885925293,
+    "grad_norm": 8.641120910644531,
+    "epe_nas": 30.362068545376633,
+    "grasp": -10.754841804504395,
+    "fisher": 440.2041931152344,
+    "l2_norm": 1350.905517578125,
+    "jacov": -89.42146651572475,
+    "zen": 34.930023193359375,
+    "nwot": 325.5109393777936,
+    "grad_sign": 3.9610908031463623,
+    "val_acc": 0.8024261603375528
+}
+\end{lstlisting}
+
+
+
+\subsubsection{Recursive Feature Elimination with Cross-Validation}
+RFECV was chosen as a feature selection technique for this project due to the limitations of the original dataset. With only 150 data points, there is a risk of overfitting if too many features are included in the model. Therefore, we strived to identify a subset of features most relevant to the target variable (validation accuracy) while minimizing the risk of overfitting.
+
+RFE is important for machine learning tasks with small training samples with high dimensionality. By recursively removing features and selecting features that yield the best performance, one might be able to get both more efficient and better models \autocite{chen2007enhanced}. When combined with cross-validation, the algorithm will select the features that yield the best cross-validation score. 
+
+Furthermore, RFECV is particularly useful for datasets with many features, as it can help extract interpretable insights from the data. In our case, the original dataset consisted of a relatively small number of data points, but many features were available for selection. 
+
+In summary, RFECV was chosen for this part as a method to overcome the limitations of the original dataset and identify the most important features for predicting the target variable. This technique is well-suited for datasets with many features and can help reduce overfitting and improve the interpretability of the results.
+
+\subsubsection{Pointwise Ranking with Regression and Cross-Validation}
+Another approach concerning supervised learning is to use pointwise ranking with regression, combined with cross-validation for model evaluation. This approach aims at predicting a continuous relevance score for each data point, which can then be used to rank the items accordingly. One regression model that might be used for this task is linear regression.
+
+While pointwise ranking with regression has advantages, such as simplicity and ease of implementation, it is essential to acknowledge its potential drawbacks. Unlike pairwise or listwise ranking methods, pointwise regression does not explicitly optimize for the correct ranking of items. Instead, it aims to minimize the difference between predicted and actual target values, which may not necessarily result in the best possible ranking. Moreover, the loss function typically used in regression models, such as Mean Squared Error (MSE), might not be the most appropriate choice for ranking tasks. Ranking-specific loss functions that directly optimize ranking quality may yield superior performance.
+
+The sensitivity of regression models to outliers can also be a concern in ranking tasks. Since the model strives to minimize the difference between predicted and actual target values, it may be influenced by extreme values, which can negatively impact the overall ranking. Pointwise regression approaches treat each data point independently, disregarding the relationships between different data points. In contrast, pairwise and listwise ranking approaches exploit the structure of the ranking problem by considering the relationships between items, potentially resulting in more accurate rankings.
+
+Cross-validation can be employed as a model evaluation technique to address the limitations associated with small datasets. A more robust performance estimate can be obtained by dividing the dataset into k equally-sized folds and training the model k times, each time using k-1 folds for training and the remaining fold for validation. The final performance is the average performance across the k validation folds, which helps mitigate the risk of overfitting and provides a better understanding of the model's generalization ability. This combination of pointwise ranking with regression and cross-validation offers a practical and effective solution for supervised ranking tasks, particularly when the quality of the predicted values is strongly correlated with the desired ranking.
+
+\end{comment}

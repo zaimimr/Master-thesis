@@ -1,0 +1,30 @@
+
+\subsection{Weighted Arithmetic Mean}
+The weighted arithmetic mean, as described in \autocite{wam}, is a widely used technique in statistics and data analysis. This study applied the weighted arithmetic mean method to the zero-cost proxies using Spearman's rank correlation as weights for ranking various architectures.
+
+\begin{algorithm}
+\caption{Weighted Arithmetic Mean for datapoint $d$}\label{alg:weighted_mean}
+\begin{algorithmic}[1]
+\Require Zero-cost proxies $P_d = \{p_1, p_2, \dots, p_n\}$
+\Require Validation accuracy $A_d$
+\State Normalise zero-cost proxies: $P_{d_{norm}} = \{p_{1_{norm}}, p_{2_{norm}}, \dots, p_{n_{norm}}\}$
+\For{$i = 1$ to $n$}
+    \State Calculate Spearman's rank correlation $r_i$ between $p_{i_{norm}}$ and $A_d$
+    \State Assign weight $w_i = r_i$
+\EndFor
+\State Initialize: $\text{Score}_d \leftarrow 0$, $total\_weight \leftarrow 0$
+\For{$i = 1$ to $n$}
+    \State $\text{Score}_d \leftarrow \text{Score}_d + (p_{i_{norm}} * w_i)$
+    \State $total\_weight \leftarrow total\_weight + w_i$
+\EndFor
+\State $\text{Score}_d \leftarrow \frac{\text{Score}_d}{total\_weight}$
+\State Calculate correlation between $\text{Score}_d$ and $A_d$ using Spearman's rank correlation
+\end{algorithmic}
+\end{algorithm}
+
+
+As illustrated in \cref{alg:weighted_mean}, each zero-cost proxy value is first normalised with min-max normalisation, ensuring they are on a comparable scale for accurate comparison and combination. Next, weights were assigned to each zero-cost proxy based on their performance. Finally, Spearman's rank correlation evaluated the correlation between each proxy and the validation accuracy. Higher correlation values indicated better performance, and proxies with stronger correlations received larger weights.
+
+For the weighted arithmetic mean calculation, the normalised value of each zero-cost proxy was multiplied by its respective weight for every data point, and the products were summed. The combined score was then calculated by dividing the sum of these products by the total sum of the weights, using the formula: \begin{equation*} \text{Score} = \frac{\sum x_i * w_i }{\sum w_i} \end{equation*} where $w_i$ is the weight assigned to the $\text{i-th}$ zero-cost proxy, $x_i$ represents the normalised value of the $\text{i-th}$ zero-cost proxy. The sums are calculated using all zero-cost proxies.
+
+After obtaining the combined scores, the architectures were ranked based on these scores, with higher scores indicating better-performing architectures. Finally, the effectiveness of the weighted arithmetic mean approach was assessed by calculating the correlation between the weighted arithmetic mean score and the validation accuracy using Spearman's rank correlation coefficient.

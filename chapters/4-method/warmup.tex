@@ -1,0 +1,34 @@
+\begin{comment}
+\subsection{Theoretical Foundation}
+
+Noen tanker her:
+- Warmup som det blir referert til her blir ikke brukt slik i artikkelen som det står
+"Generally speaking, by warmup we mean using the zero-cost proxies at the beginning of the search
+process to initialize the search algorithm without training any models or using accuracy"
+Warmup, originally used in neural network training, refers to the gradual increase of the learning rate during the initial training phase, which aids in achieving better convergence and stabilizing training dynamics \autocite{GoyalDGNWKTJH17}. In \cite{abdelfattah2021zero}, warmup is referred to as using zeor-cost proxies at the start of the search without training any models or using any accuracy.  
+
+The warmup concept has been adapted to zero-cost proxies by \autocite{abdelfattah2021zero} to improve performance estimation in NAS.
+
+The motivation behind applying warmup to zero-cost proxies in NAS is to capitalize on early training dynamics to enhance the precision and dependability of performance estimation. This approach involves training the candidate architectures for a finite number of warmup epochs and computing the zero-cost proxies at each epoch. By pinpointing the optimal warmup point, the NAS process can be steered towards more favorable architectures, subsequently minimizing search time and boosting overall efficiency.
+
+The value of warmup in the realm of zero-cost proxies can be ascribed to several factors. Firstly, it facilitates the incorporation of early training dynamics into the performance estimation process, providing crucial insights into the potential performance of an architecture. Secondly, warmup allows for network performance estimation without fully training the networks, substantially alleviating the computational workload. Lastly, the warmup method emphasizes determining the epoch with the highest correlation between the zero-cost proxies and the final network performance, as measured by validation accuracy, leading to a more precise and reliable performance predictor.
+\end{comment}
+
+\section{Exploration of Zero-Cost Proxies via Warmup Strategy}
+\subsection{Theoretical Foundation}
+
+The primary objective of NAS is to discover high-performing architectures while minimising computational overhead. Training numerous architectures for a large number of epochs is computationally prohibitive. Training architectures for a limited number of epochs may be a more viable approach. In this context, the authors introduce the concept of a warmup strategy in this study, which aims to determine an optimal epoch threshold that can provide a reliable estimation of the relative performance of different architectures.
+
+The underlying principle for this strategy is based on the assumption that training an architecture for $x$ epochs offers a more efficient evaluation than training the same architecture for $y$ epochs if $x < y$. By identifying an appropriate warmup threshold, researchers can effectively balance the trade-off between computational expense and the accuracy of architecture performance estimation.
+
+
+\subsection{Implementation}
+In this subsection, the methodology for the implementation is outlined, in which the aim is to find the best warmup point to determine a threshold. 
+
+To achieve this, each architecture is trained for a predetermined number of warmup epochs, and the zero-cost proxies are calculated at each epoch. Then, for every epoch, the Spearman Rank correlation coefficient between the zero-cost proxies and the final validation accuracy for all architectures is calculated. The epoch with the highest correlation is considered the optimal warmup point. 
+
+\begin{comment}
+    
+By combining the warmup concept with zero-cost proxies in the project, one can take advantage of early training dynamics to improve the accuracy and reliability of performance estimation. This improved performance prediction allows for more efficient exploration and use of the search space in NAS, ultimately leading to better architectures with lower search costs.
+\end{comment}
+

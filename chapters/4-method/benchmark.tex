@@ -1,0 +1,163 @@
+\section{Benchmark}
+Within NAS, a benchmark is a collection of already trained and evaluated models that can be queried to obtain their validation accuracy. For research within NAS, such benchmarks are crucial as they spare the researchers thousands of GPU training time. Popular benchmarks within the literature are NAS-Bench-101 \autocite{ying2019bench}, NAS-Bench-201 \autocite{dong2020bench} and NAS-Bench-360 \autocite{tu2021bench}. These benchmarks contain thousand of trained and evaluated models on different datasets. However, to the best of our knowledge, 
+there exist no similar benchmarks for GCN within HAR. Consequently, a benchmark had to be created for later experiments in the thesis. \Cref{sec:gcn-nas} highlights how the framework used for generating and training models works in detail, \cref{sec:full_trained} goes into how the authors define a fully trained model and \cref{subsec:experimentalsetup} explains the basic methodology behind the creation of the benchmark.       
+
+\subsection{GCN-NAS}\label{sec:gcn-nas}
+To create the benchmark, the authors used the framework in the paper Learning Graph Convolutional Network for Skeleton-Based Human Action Recognition by Neural Searching \autocite{peng2020learning}. The framework provides ways to train individual models and run the provided NAS algorithm to find the best architectures for a given problem. In addition, the framework is developed to be used on the NTU RGB+D dataset.  
+
+The search space consists of eight function modules that can be applied in each network layer. To extract features $U$ from a given node in a graph, the filter $g_{\theta}$ is approximated using Chebyshev polynomials with R-th order. The more significant R, the bigger the local receptive field of the GCN layer will be. Chebyshev polynomial is recursive and is given in \cref{eq:chebyshev}. 
+
+\begin{equation}
+    \bm{Y} = \sum^R_{r=0} \theta_r' \bm{T_r} (\bm{\hat{L}})\bm{X},
+    \label{eq:chebyshev}
+\end{equation}
+
+In which $ \theta_r'$ is the Chebyshev coefficient. Recursively, the Chebyshev polynomial $T_r(\hat{L})$ is defined by \cref{eq:cheb}. 
+
+\begin{equation}
+    \bm{T_r}(\bm{\hat{L}}) = 2 \bm{\hat{L}}\bm{T_{r-1}} (\bm{\hat{L}}) - \bm{T_{r-2}}(\bm{\hat{L}}),
+    \label{eq:cheb}
+\end{equation}
+
+where $T_0$ = 1 and $t_1 = \hat{L}$. In the framework, $\hat{L}$ is normalised to the range $[-1,1]$, where $\hat{L} = \frac{2L}{\lambda_{max}} - I_n$. Based on the work of \autocite{DBLP:journals/corr/KipfW16}, $R = 1$ and $\lambda_{max} = 2$. This results in a first-order approximation of spectral graph convolutions, as shown in \cref{eq:shared}. 
+
+
+\begin{equation}
+\begin{aligned}
+    \bm{Y} &= \theta'_0 \bm{X} + \theta'_1 (\bm{L} + \bm{I_n})\bm{X} \\
+    &= \theta'_0 \bm{X} - \theta'_1(\bm{D}^{-\frac{1}{2}}\bm{A}\bm{D}^{-\frac{1}{2}})\bm{X}
+\end{aligned}
+\label{eq:shared}
+\end{equation}
+
+Similarly, $\theta^{'}$ can be approximated with a unified parameter $\theta$; this means that instead of using a separate parameter for $\theta^{'}$, it can be estimated using a single parameter, $\theta$, which will be a simplified representation of $\theta^{'}$. Then, Y is given by \cref{eq:y_final}. 
+
+\begin{equation*}
+\bm{Y} = \theta (\bm{I_n} + \bm{D}^{-\frac{1}{2}}\bm{A}\bm{D}^{-\frac{1}{2}})\bm{X}
+\label{eq:y_final}
+\end{equation*}
+
+Given the available search space, the networks may have different combinations of R-th order Chebyshev-polynomials. Intuitively, using higher R-th order, the filters of each layer will be able to aggregate more information from the neighbours as the hops increase. 
+
+In addition, the search space consists of three dynamic graph modules; spatial, temporal and spatial-temporal. Spatial features refer to the composition of the joints in a single frame, typically represented as a set of 3D coordinates. These spatial features capture the posture and pose of the human body at a given time point, but they do not capture the motion dynamics over time. On the other hand, temporal features capture how spatial features change over time. Through a series of frames, these features encode movement and action information. Finally, spatial-temporal features combine the spatial and temporal aspects to capture both the posture and dynamics of motion over time.  
+
+To illustrate, \cref{fig:found_architecture} shows the best-performing architecture searched in the paper. 
+\clearpage
+
+\begin{table}[h!]
+\centering
+\caption{The searched architecture in the paper}
+\begin{tabular}{lllllllll}
+\hline
+M & $L$ & $L^4_n$ & $L^4$ & $L^3$ & $L^2$ & $M(S)$ & $M(T)$ & $M(ST)$ \\ \hline
+\multicolumn{1}{l|}{\cellcolor{verylightgray}{$k_1$}} & {\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} \\
+\multicolumn{1}{l|}{$k_2$} & & & & & & \checkmark & \checkmark & \checkmark \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}{$k_3$}} & {\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} \\
+\multicolumn{1}{l|}{$k_4$} & & & & & & \checkmark & \checkmark & \checkmark \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}{$k_5$}} & {\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} &{\cellcolor{verylightgray}} \\
+\multicolumn{1}{l|}{\textbf{$k_6$}} & & & & & \checkmark & & \checkmark & \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}{$k_7$}} &{\cellcolor{verylightgray}} & {\cellcolor{verylightgray}\checkmark} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}\checkmark} \\
+\multicolumn{1}{l|}{$k_8$} & & & & & \checkmark & & \checkmark & \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}{$k_9$}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} &{\cellcolor{verylightgray}} & {\cellcolor{verylightgray}\checkmark} &{\cellcolor{verylightgray}} & {\cellcolor{verylightgray}\checkmark} & {\cellcolor{verylightgray}}\\
+\multicolumn{1}{l|}{$k_{10}$} & & & & & & & \checkmark & \\ \hline
+\end{tabular}
+\label{fig:found_architecture}
+\end{table}
+
+\Cref{fig:found_architecture} illustrates that the different layers of the architecture prefer different mechanisms. For instance, the lower layers prefer all the dynamic modules, whereas the deeper layers prefer the temporal representation correlations \autocite{peng2020learning}. 
+
+\subsection{Definition of Fully Trained Models}\label{sec:full_trained}
+
+Defining what constitutes a fully trained model is essential in the benchmark development context. Due to time and hardware resource limitations, a balance must be struck between training the models for optimal duration and ensuring the process remains feasible within the given constraints. 
+
+A threshold was determined based on the trade-offs between computational cost, training time and model performance. By setting this upper limit, it was possible to maintain a reasonable training duration while still allowing the models to reach a  satisfactory level of performance. In the paper that introduced the framework, the authors \autocite{peng2020learning} opted to conclude the training process at 70 epochs, a practice adopted in the thesis.
+
+Although the imposed threshold may not guarantee that every model reaches its absolute peak performance, it ensures that each model is trained sufficiently to compare relative performances. Furthermore, this definition of "fully trained" facilitates the efficient generation and evaluation of many models, which is crucial for successful benchmark development.
+
+
+
+
+\subsection{Experimental Setup and Benchmarking Methodology}\label{subsec:experimentalsetup}
+
+The algorithm for generating and evaluating random architectures is described in \cref{alg:random_arch_gen_eval}. The benchmark consists of a large-scale dataset comprising a diverse set of fully trained architectures to facilitate a comprehensive investigation into the performance of zero-cost proxies.
+
+To generate random architectures, the framework described in \cref{sec:gcn-nas} was utilised as a foundation for developing an algorithm that implements a unique structure generation process to prevent the creation of duplicate architectures. The algorithm was constrained to create models consisting of four, six, eight, or ten layers to ensure a diverse range of architectures and explore a more comprehensive search space. In addition, other constraints were imposed, such as requiring at least one spatial, temporal, or spatial-temporal function module for effective feature extraction from the data.
+
+
+\begin{comment}
+    
+\begin{algorithm}
+\caption{Random Architecture Generation and Evaluation}
+\label{alg:random_arch_gen_eval}
+\begin{algorithmic}[1]
+\Require{$N$: number of architectures to generate}
+\State Define constraints for layer count and function modules
+\State Initialize $i \gets 0$
+\While{$i < N$}
+    \State Generate a random architecture $A_i$ within constraints
+    \If{not exists($A_i$)}
+        \State Train $A_i$ for up to 70 epochs
+        \State Compute validation accuracy $V_i$ of $A_i$
+        \State Store $A_i$ and $V_i$ in the benchmark dataset
+        \State $i \gets i + 1$
+    \EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+\end{comment}
+
+\begin{algorithm}
+\caption{Random Architecture Generation and Evaluation}
+\label{alg:random_arch_gen_eval}
+\begin{algorithmic}[1]
+\Require{$N$: number of architectures to generate}
+\State Define constraints for layer count and function modules
+\State Initialize $i \gets 0$
+\While{$i < N$}
+    \State Generate a random architecture $A_i$ within constraints
+    \While{exists($A_i$)}
+        \State Generate a new random architecture $A_i$ within constraints
+    \EndWhile
+    \State Train $A_i$ for up to 70 epochs
+    \State Compute validation accuracy $V_i$ of $A_i$
+    \State Store $A_i$ and $V_i$ in the benchmark dataset
+    \State $i \gets i + 1$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+\clearpage
+The following hyperparameters were used for the training process: 
+
+\begin{table}[h]
+\centering
+\caption{Hyperparameters for the training}
+\begin{tabular}{ll}
+\textbf{Name}                           & \textbf{Value}   \\ \hline
+\multicolumn{1}{l|}{weight decay}       & $0.006$          \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}base learning rate} & \cellcolor{verylightgray}$0.1$              \\
+\multicolumn{1}{l|}{step}               & ${[}30, 45, 60{]}$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}batch size}         & \cellcolor{verylightgray}$40$               \\
+\multicolumn{1}{l|}{test batch size}    & $20$               \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}num. epochs}        & \cellcolor{verylightgray}$70$               \\
+\multicolumn{1}{l|}{nesterov}           & true            
+\end{tabular}
+\end{table}
+
+It should be noted that while previous work in this field has utilised significantly larger benchmark datasets, time and hardware constraints necessitated limiting the scope of this benchmark to produce baseline results.
+
+To provide insight into the characteristics of the benchmark dataset, \cref{tab:benchmark_stats} displays the minimum, average, and maximum values for training time and validation accuracy. Additionally, the number of layers in each architecture is provided.
+
+\begin{table}[h]
+    \centering
+    \caption{Benchmark Dataset Statistics}
+    \begin{tabular}{lrrr}
+        \textbf{Statistic} & \textbf{Minimum} & \textbf{Average} & \textbf{Maximum} \\ \hline
+        Training time (hours) & 4.35 & 13.16 & 53.30 \\
+        \cellcolor{verylightgray}Validation accuracy & \cellcolor{verylightgray}0.92 & \cellcolor{verylightgray}0.94 & \cellcolor{verylightgray}0.95 \\
+    \end{tabular}
+    \label{tab:benchmark_stats}
+\end{table}
+
+

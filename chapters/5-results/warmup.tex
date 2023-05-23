@@ -1,0 +1,37 @@
+\subsection{Warmup}
+
+
+\Cref{fig:warmup,fig:warmup_seperate} present the variation in correlation during the initial ten epochs, with epoch -1 representing the starting correlations (same as \cref{tab:corr}). The figure demonstrates that SynFlow and Zen exhibit the highest performance, maintaining a stable correlation at $\approx 0.8$ throughout the observed epochs. A minor increment in correlation can be observed, although its impact is relatively insignificant. Furthermore, params, l2\_norm, and FLOPs exhibit consistently strong performance with a correlation coefficient ($\rho$) exceeding $0.6$ across all epochs under consideration.
+
+\begin{figure}[!ht]
+  \centering
+  \includesvg[width=0.8\columnwidth]{figures/correlations.svg}
+  \caption{Correlations for all zero-cost proxies over multiple epochs}
+  \label{fig:warmup}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[htbp]
+  \centering
+    \begin{adjustbox}{width=1.2\columnwidth,center}
+  \begin{tabular}{ccc}
+    \includesvg[width=0.5\textwidth]{figures/correlations/epe_nas_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/fisher_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/flops_correlations.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/correlations/grad_norm_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/grad_sign_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/grasp_correlations.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/correlations/jacov_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/l2_norm_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/nwot_correlations.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/correlations/params_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/plain_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/snip_correlations.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/correlations/synflow_correlations.svg} &
+    \includesvg[width=0.5\textwidth]{figures/correlations/zen_correlations.svg} 
+  \end{tabular}
+  \end{adjustbox}
+  \caption{Each zero-cost proxy with the correlation over multiple epochs}
+  \label{fig:warmup_seperate}
+\end{figure}

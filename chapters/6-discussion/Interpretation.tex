@@ -1,0 +1,113 @@
+\section{Interpretation and Significance of Results}
+
+\begin{comment}
+\subsection{Research Questions}
+\end{comment}
+
+\subsection{RQ1 How well can different zero-cost proxies rank GCN architectures compare to their validation accuracy?}
+
+\Cref{res:correlation} highlights the results for the given research question in which the correlation between the different zero-cost proxies and the validation accuracy is presented. Positive correlation values indicate that as the proxy metric increases, the validation accuracy also increases, whereas negative values indicate the opposite. The magnitude and sign of the Spearman rank correlation coefficient, also known as Spearman's rho (\(\rho\)), can be used to interpret the strength and direction of the association between two ranked variables \autocite{pallant2016spss}.
+
+According to \cite{spear}, Spearman's correlation can generally be described using the following guidelines:
+
+\begin{table}[h]
+\caption{Guidelines for interpreting Spearman's correlation}
+\centering
+\begin{tabular}{lc}
+\textbf{Correlation coefficient} & \textbf{Strength of correlation} \\ \hline
+\multicolumn{1}{l|}{.00-.19} & Very weak \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}.20-.39} & \cellcolor{verylightgray}Weak \\
+\multicolumn{1}{l|}{.40-.59} & Moderate \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}.60-.79} & \cellcolor{verylightgray}Strong \\
+\multicolumn{1}{l|}{.80-1.0} & Very strong \\
+\end{tabular}
+\label{tab:correlation}
+\end{table}
+
+The results showed that zen and synflow performed the best with a spearman $\rho$ of $0.7827$ and $0.7599$, respectively. This is a very strong correlation, as indicated by \cite{spear}, demonstrating that the zero-cost proxies can confidently predict model performance without incurring significant computational overhead. The strength of these correlations suggests that both zen and synflow effectively capture fundamental architectural and optimisation properties critical for achieving high validation accuracy in neural networks. Furthermore, given the variations in the validation accuracy in the benchmark $[0.92 - 0.95]$, and the provided correlations, both synflow and Zen are sensitive to subtle differences in performance among the models, effectively ranking them based on their validation accuracy. 
+
+For comparison, \cite{abdelfattah2021zero} reported the following results of zero-cost proxies on NAS-Bench 201. Note here that this is a benchmark for a different task. 
+
+\begin{table}[h]
+\caption{Comparison of various methods on different datasets}
+\centering
+\begin{adjustbox}{center}
+\begin{tabular}{l|cccccc}
+\textbf{Dataset} & \textbf{grad\_norm} & \textbf{snip} & \textbf{grasp} & \textbf{fisher} & \textbf{synflow} & \textbf{jacob\_cov} \\ \hline
+\multicolumn{1}{l|}{CIFAR-10} & 0.58 & 0.58 & 0.48 & 0.36 & 0.74 & 0.73 \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}CIFAR-100} & \cellcolor{verylightgray}0.64 & \cellcolor{verylightgray}0.63 & \cellcolor{verylightgray}0.54 & \cellcolor{verylightgray}0.39 & \cellcolor{verylightgray}0.76 & \cellcolor{verylightgray}0.71 \\
+\multicolumn{1}{l|}{ImageNet16-120} & 0.58 & 0.58 & 0.56 & 0.33 & 0.75 & 0.71 \\
+\end{tabular}
+\end{adjustbox}
+\label{tab:comparison}
+\end{table}
+
+The results in \cref{tab:comparison} from \cite{abdelfattah2021zero} show that the performance of the zero-cost proxies varies across different datasets. It is important to note that NAS-Bench 201 is a different benchmark and has other properties than the dataset used in this study. Nonetheless, a comparison can provide valuable insights into the generalisability and robustness of these methods across various tasks.
+
+From \cref{tab:comparison}, it is evident that synflow performs consistently well across all three datasets, with correlation coefficients of 0.74, 0.76, and 0.75 for CIFAR-10, CIFAR-100, and ImageNet16-120, respectively. The results support the thesis' finding that synflow is a reliable and robust predictor of model performance. Similarly, grad\_norm and snip exhibit relatively high correlations across the datasets, although not as strong as synflow. This suggests that these methods may also provide valuable information when predicting model performance but with varying effectiveness.
+
+The practical implications of this thesis's findings suggest that synflow and zen could be valuable components of a NAS algorithm in the context of GCN for HAR tasks, given their strong correlations with model performance. However, it is essential to note that the current study utilised a specific framework designed for GCN HAR tasks with the NTU RGB+D dataset. This means that the demonstrated efficiency of using zero-cost proxies, such as synflow and zen, is effective for this case.
+
+However, the generalisability of these results to other tasks, datasets, or frameworks remains to be established. Further research is needed to assess the effectiveness and applicability of synflow, zen, and other zero-cost proxies across a broader range of neural network architectures and tasks. By doing so, the academic community can better understand the potential benefits and limitations of incorporating zero-cost proxies into NAS algorithms for various problem domains.  
+
+The significance of these findings lies in their potential to improve the efficiency and effectiveness of NAS methods by identifying zero-cost proxies with solid predictive capacities. Furthermore, by understanding which proxies are more reliable in ranking GCN architectures to their validation accuracy, researchers can prioritise their use in NAS algorithms and reduce the overall computational demands of the architecture search process.
+
+This is particularly important given neural networks' growing scale and complexity, often requiring substantial computational resources to explore and evaluate. Focusing on zero-cost proxies with strong correlations can significantly reduce the search space and the time required to identify optimal architectures.
+
+Furthermore, these findings stimulate additional research into developing and refining zero-cost proxies that exhibit stronger correlations with validation accuracy. This could lead to the discovery of new proxies that further improve the efficiency and accuracy of NAS methods, thus accelerating progress in the field.
+
+Finally, the reduced computational demands also result in lessening the environmental impact. By decreasing the training time and computational resources required for NAS, one can significantly lower the energy consumption and the associated carbon footprint of the process. This aligns with the growing global concern for sustainable practices in artificial intelligence research and development.
+
+
+\subsection{RQ2 How early can we identify the correlation between zero-cost proxies and validation accuracy during the warmup phase of GCN training in order to potentially halt the training process sooner?}
+
+The results presented in \cref{results} provide valuable insights into how the relationship between zero-cost proxies and validation accuracy evolves during the warmup phase of GCN training. By analysing the Spearman Rank correlation coefficients between the 14 proxies and the model performance for each epoch (see \cref{fig:warmup}), one can determine the optimal warmup point for each architecture.
+
+The correlation coefficients reveal that some zero-cost proxies, such as synflow, flops, params, and l2\_norm, consistently show strong positive correlations with the validation accuracy throughout the warmup phase. On the other hand, some proxies, like grasp, grad\_sign, and jacov, display weak or negative correlations. This suggests that specific zero-cost proxies are more reliable indicators of an architecture's potential performance.
+
+Moreover, the optimal warmup points vary across the different zero-cost proxies, as evident from the highest correlation coefficients achieved at different epochs. For example, synflow achieves its highest correlation at epoch 8, while l2\_norm peaks at initialisation. This indicates that there is no optimal warmup point for all proxies, and the choice of a warmup point depends on the specific proxy used for performance estimation.
+
+The significance of the results is that there is no improvement in using warmup regarding the correlation and that the zero-cost proxies are most effective when the network is initialised. From an academic perspective, it is crucial to note this study's implications on NAS algorithms. The findings suggest that the necessity of training architectures within a NAS algorithm may be an oversimplified assumption. Given that zero-cost proxies were found to be most effective at the initialisation stage, one can assume that the requirement of training architectures may be less vital to the successful implementation of a NAS algorithm than previously believed.
+
+\begin{comment}
+    
+However, after analysing \autoref{fig:warmup} the authors find that using warm-up method doesn't improve the proxies, and only looking at initialisation is sufficient.  
+
+In addition, these results expand on the discoveries from RQ1 and advance the study of GCN NAS. By determining the best point for each zero-cost proxy with a warm-up phase, which involves training for a specific number of epochs, one can stop the training process much sooner than previously. This approach improves accuracy prediction and reliability without compromising the performance assessment.
+\end{comment}
+
+
+
+
+\begin{comment}
+\subsubsection{RQ3 How can we effectively combine zero-cost proxies using various techniques to enhance the efficiency and accuracy of architecture search in Neural Architecture Search (NAS) algorithms?}
+
+
+This study aimed to investigate the effectiveness of combining zero-cost proxies to improve the efficiency and accuracy of architecture search in Neural Architecture Search (NAS) algorithms, as posed in Research Question 3. We observed an enhanced capacity for identifying superior-performing architectures compared to using individual zero-cost proxy metrics by employing the majority vote method and the weighted arithmetic mean method.
+
+As detailed in the Results chapter, the majority vote method (\autoref{tab:vote}) demonstrates that some combinations of zero-cost proxy metrics exhibit a higher custom correlation measure (majority vote score). This indicates that these combinations perform similarly in terms of the agreement between the majority of metric differences and accuracy differences. For example, the highest majority vote score was 0.8009 when combining Synflow, Zen, and Plain metrics.
+
+The weighted arithmetic mean method also showed promise for improving the ranking of candidate architectures. The method assigned weights to zero-cost proxies based on their individual correlation with validation accuracy, as shown in \autoref{tab:corr}. Based on \autoref{fig:weighted}, there appears to be a positive correlation between the validation accuracy and the weighted arithmetic mean, as indicated by the upward slope of the best-fit line. This suggests that architectures with higher validation accuracy tend to have higher weighted arithmetic means. The Spearman's rank correlation coefficient of 0.796 supports this observation, implying a strong positive correlation between the two variables.
+\end{comment}
+\subsection{RQ3 How can we effectively combine zero-cost proxies using various techniques to enhance the efficiency and accuracy of architecture search in Neural Architecture Search (NAS) algorithms?}
+
+\cite{colin2022adeeperlook} argued that zero-cost proxies have untapped potential and referred to preliminary research, which showed zero-cost proxies shine when combined rather than individually. How to combine them is another question that one should raise, as there are many different opportunities to discover. This study investigated the effectiveness of combining zero-cost proxies to improve the efficiency and accuracy of architecture search in NAS algorithms, as posed in Research Question 3. 
+
+Considering the high Spearman's rank correlation for zen and synflow, combining methods has little room for improvement, as the correlation is already strong. It is important to note that using the majority vote and weighted arithmetic mean helps maximise the different metrics' variety to create a better correlation. With this in mind, and looking at \cref{fig:weighted}, there is a positive link between validation accuracy and the weighted arithmetic mean, shown by the upward slope of the best-fit line. This means architectures with higher validation accuracy usually have higher weighted arithmetic means. Spearman's rank correlation coefficient of $0.766$ supports this idea, showing a strong positive relationship between the two factors. Combining methods like the weighted arithmetic mean makes a more stable metric that benefits from the variation among different metrics while still focusing on the better-performing proxies. These results suggest that exploring and improving these methods could be valuable for future research in architectural evaluation, even though there is no concrete improvement in using the zero-cost proxies individually. 
+
+The presented methods in this study are relatively simple yet efficient methods discovered. However, various other methods can be explored for combining zero-cost proxies. One approach is supervised learning,  which involves training a model on labelled input-output pairs to learn the underlying relationship between input features and target outputs. An approach in the context of NAS is developing a machine learning model specifically designed to learn how to rank architectures, utilising zero-cost proxies as input features. This method aims to leverage the information the zero-cost proxies provide to establish a relative ranking of architectures, guiding the search process towards the most promising candidates effectively and efficiently. 
+
+RankNet is a pairwise ranking model based on a neural network architecture proposed by \cite{burges2005learning} in the paper Learning to rank using gradient descent. The model is designed to learn how to rank entities by minimising a pairwise loss function, typically using cross-entropy loss or a variant thereof. The core idea behind RankNet is to represent entities using input features and predict their relative ranking based on pairwise comparisons. During training, the model receives pairs of entities represented by their respective feature vectors and learns the underlying relationship between these features and the desired ranking. The training data includes binary labels indicating which entity in a pair is superior based on their ranking.
+
+Applying RankNet to NAS algorithms offers several advantages. First, by leveraging the pairwise ranking approach, RankNet allows for a more nuanced understanding of the relative performance of different architectures based on their zero-cost proxies. This is particularly beneficial in the context of NAS, where the search space is vast and evaluating each architecture based on its actual performance is computationally expensive.
+
+Furthermore, by training a neural network to learn the relationships between zero-cost proxies and architecture performance, RankNet has the potential to uncover hidden patterns and interactions among these proxies that may not be immediately evident. This can lead to a more accurate and efficient ranking of candidate architectures, reducing the search time and computational resources required for NAS.
+
+\begin{comment}
+The model consists of a neural network with one or more hidden layers, which processes the input features and outputs a single scalar score for each entity. The difference in scores between entities in a pair represents their predicted ranking. The model's parameters are learned through gradient descent by minimising the pairwise loss function, quantifying the difference between the predicted and true preferences in the training data.
+
+Using RankNet, researchers can develop ranking-based approaches for various applications, including evaluating and selecting architectures in Neural Architecture Search (NAS) algorithms. Adapting RankNet to use zero-cost proxies as input features enables leveraging the information provided by these proxies to guide the search process towards the most promising candidate architectures.
+
+\end{comment}
+
+

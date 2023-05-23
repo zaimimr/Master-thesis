@@ -1,0 +1,28 @@
+\documentclass[12pt, british]{ntnuthesis} 
+\addbibresource{thesis.bib}
+
+\input{glossary.tex} % add glossary and acronym lists before document
+
+\begin{document}
+\input{title}
+\input{chapters/0a-abstract}
+\input{chapters/0b-sammendrag}
+\input{chapters/0c-preface}
+\input{chapters/0d-acknowledgement}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\listofalgorithms
+
+\printglossary[type=\acronymtype,nonumberlist] % Print acronyms
+\input{chapters/1-introduction}
+\input{chapters/2-theory}
+\input{chapters/3-related work}
+\input{chapters/4-method}
+\input{chapters/5-results}
+\input{chapters/6-discussion}
+\input{chapters/7-conclusion}
+
+\printbibliography
+\end{document}

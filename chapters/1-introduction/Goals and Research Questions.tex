@@ -1,0 +1,37 @@
+\begin{comment}
+\textbf{Research Question 2} \textit{How does the relationship between zero-cost proxies and validation accuracy evolve during the warm-up phase of GCN training, and how early can we potentially halt the training process?}
+\end{comment}
+\begin{comment}
+\textbf{Research Question 2} \textit{How does the correlation between zero-cost proxies and validation accuracy change during the warm-up phase, as GCN architectures are trained for up to 10 epochs? }
+
+This research question investigates the relationship between zero-cost proxies and validation accuracy during the initial training phase (referred to as the warm-up phase) of GCN architectures. Specifically, it seeks to understand how the predictive power of zero-cost proxies evolves as architectures are trained for up to 10 epochs. 
+\end{comment}
+
+\begin{comment}
+\textbf{Research question 3}\textit{ How will combining zero-cost proxies improve neural architecture search for GCN?}
+
+Studies on zero-cost proxies on different computer vision tasks using CNN show that combining them may yield better performance than using them independently. Therefore, we will investigate how we can use an ensemble of zero-cost proxies in a neural architecture search for GCN. 
+
+
+\textbf{Research question X} \textit{How can we effectively combine zero-cost proxies using various techniques, such as supervised learning, feature engineering, and weighted averaging, to enhance the efficiency and accuracy of architecture search in Neural Architecture Search (NAS) algorithms?}
+\end{comment}
+\section{Goal and Research Questions}\label{section:goalsandrq}
+
+\textbf{Goal} \textit{Improve and optimise the efficiency of neural architecture search with graph convolutional networks for human action recognition.} 
+
+NAS has been used with GCN in different studies \autocite{zhou2019auto, groos2022toward, peng2020learning}, but finding other, more efficient methods is still possible. If one can find ways far more effective than what exists today, more architectures can be researched, which may result in detecting other well-performing architectures. Also, as training and searching for neural networks may impact the environment, effective methods will significantly reduce the carbon footprint. 
+
+\textbf{Research question 1} \textit{How well can different zero-cost proxies rank GCN architectures compare to their validation accuracy?}
+
+Recent studies \autocite{abdelfattah2021zero, colin2022adeeperlook} show that zero-cost proxies yield great promise regarding using it to rank different architectures. However, to the authors´ knowledge, research is yet to be done on how zero-cost proxies perform on GCN architectures. Evaluating the correlation between zero-cost proxies and ground truth validation accuracy can determine if they accurately indicate the ground truth.
+
+
+\textbf{Research Question 2} \textit{How early can we identify the correlation between zero-cost proxies and validation accuracy during the warm-up phase of GCN training to potentially halt the training process sooner?}
+
+
+Research Question 2 aims to investigate the potential for early identification of the correlation between zero-cost proxies and validation accuracy during the warm-up phase of training for GCN. In addition, this research question aims to determine if it is possible to score network before fully training it. 
+
+
+\textbf{Research question 3} \textit{How can we effectively combine zero-cost proxies using various techniques to enhance the efficiency and accuracy of architecture search in NAS algorithms?}
+
+Through investigating Research Question 3, the study aims to identify effective techniques for combining zero-cost proxies to enhance the efficiency and accuracy of architecture search. By leveraging the strengths of multiple zero-cost proxies, future NAS algorithms may become more efficient and accurate in discovering high-performing architectures. The outcomes of this research question can provide insights into how to optimise the use of zero-cost proxies in NAS algorithms and improve the architecture search process in the future.

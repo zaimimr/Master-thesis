@@ -1,6 +1,5 @@
-
 \section{Graph Convolutional Networks}
-
+\glsreset{GCN}
 Graphs are ubiquitous structures representing complex systems, including social networks, biological networks, and transportation systems \autocite{scarselli2008graph}. They consist of nodes and edges, representing the many entities and relationships between them. Despite their widespread use, graphs pose unique challenges in machine learning due to their irregular structure, which makes it difficult to apply conventional learning techniques that rely on fixed-size inputs and Euclidean data representations \autocite{battaglia2018relational}.
 
 \Gls{GNN} has emerged as a solution to these challenges, generalising deep learning techniques to graph-structured data \autocite{gori2005new}. Among \glspl{GNN}, \glspl{GCN} have become particularly popular owing to their ability to perform localised and efficient convolutions on graph data \autocite{DBLP:journals/corr/KipfW16}. \glspl{GCN} extend the concept of convolution from grid-like structures, such as images, to irregular graph structures, enabling the extraction of meaningful features from graph data while preserving their spatial relationships \autocite{bronstein2017geometric}. 
@@ -18,7 +17,7 @@ The components in \cref{eq:kiph} are defined as follows:
 
 $H^{(l+1)}$ stands for the updated node representations (features) at layer $(l+1)$, while $H^{(l)}$ indicates the node features at layer $l$. $H^{(0)}$ is the input feature matrix for the first layer. The graph's adjacency matrix, represented by $A$, is modified to incorporate self-connections. This is achieved by adding a diagonal matrix with ones to the original adjacency matrix $A$, ensuring that the node's features are considered during the aggregation process.
 
-The degree matrix, denoted by $\hat{D}$, corresponds to the modified adjacency matrix $\hat{A}$. It is a diagonal matrix wherein each diagonal entry signifies the degree (number of connections) of the corresponding node. The learnable weight matrix at layer $l$ is represented by $W^{(l)}$ and is employed to linearly transform the node features at each layer.
+The degree matrix, denoted by $\hat{D}$, corresponds to the modified adjacency matrix $\hat{A}$. It is a diagonal matrix wherein each diagonal entry signifies the degree (number of connections) of the corresponding node. The learnable weight matrix at layer $l$ is represented by $W^{(l)}$ and is employed to transform the node features at each layer linearly.
 
 Lastly, the activation function $\sigma$ introduces non-linearity to the model. Typical choices for activation functions are ReLU, sigmoid, and tanh.
 

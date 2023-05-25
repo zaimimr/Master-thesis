@@ -8,9 +8,11 @@ Global search space is a way in which it tries to combine all possible operation
     \item the hyperparameters of each operation, namely kernel size, number of filters etc. 
 \end{itemize}
 
-Such a network can be described as a series of $n$ layers, where layer $L_i$ takes $L_{i-1}$ as input. However, this sort of search space is immense and very expensive. 
+Such a network can be described as a sequence of $n$ layers, where layer $L_i$ takes $L_{i-1}$ as input. However, this sort of search space is enormous and very expensive. 
 
 Cell-based representations were inspired by successful architectures using repeated modules (Inception, ResNet). NASNet paper \autocite{DBLP:journals/corr/ZophVSL17}, is one of the most popular cell- or block-based approaches. Cell-based representations differ from global search space because they search for cells or blocks instead of whole architectures \autocite{elsken2019neural}. \cite{DBLP:journals/corr/ZophVSL17} learns two sorts of cells; a normal cell which performs feature extraction (preserving dimensionality), and a reduction cell which reduces the dimensionality. By stacking such cells, we get the final architecture, as shown in \cref{fig:cells}. 
+
+\clearpage
 
 \begin{figure}
     \centering
@@ -19,7 +21,18 @@ Cell-based representations were inspired by successful architectures using repea
     \label{fig:cells}
 \end{figure}
 
+\begin{tikzpicture}
+    \node (input) [rectangle, rounded corners, text centered, draw=black, minimum width=3cm, minimum height=1cm] {Input};
+    \node (l0) [rectangle, rounded corners, text centered, draw=black, fill=gray!50, minimum width=3cm, minimum height=1cm, below of=input] {$L_0$};
+    \node (l1) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=3cm, minimum height=1cm, below of=l0] {$L_1$};
+    \node (ln) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=3cm, minimum height=1cm, below of=l1] {$L_n$};
+    \node (output) [rectangle, rounded corners, text centered, draw=black, minimum width=3cm, minimum height=1cm, below of=ln] {Output};
+\end{tikzpicture}
+
+\clearpage
+
 \subsubsection{Directed Acyclic Graphs}
+\glsreset{DAG}
 \Gls{DAG} is often used in \gls{NAS} to represent the structure of a neural network. In this context, the graph's vertices represent different operations or layers in the network, and the graph's edges represent the data flow between these operations. This allows researchers to efficiently represent and manipulate the structure of a neural network during the search process.
 
 One of the main advantages of using \glspl{DAG} in \gls{NAS} is that they provide a convenient way to encode the constraints on the network architecture. For example, a \gls{DAG} can enforce the requirement that a neural network must have a certain number of layers or that individual layers must be connected in a specific way. This can help ensure that the search process only considers valid network architectures, which can speed up the search and improve its accuracy \autocite{https://doi.org/10.48550/arxiv.1806.09055}. 

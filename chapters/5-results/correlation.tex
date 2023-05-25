@@ -1,6 +1,6 @@
 \section{Correlation Analysis}\label{res:correlation}
 
-The establishment of a benchmark provided the foundation for investigating the correlation between various zero-cost proxies and the ground truth represented by the validation accuracy. The Spearman Rank Correlation was employed to measure the correlation, as discussed in \cref{sec:corr}. 
+Establishing a benchmark provided the foundation for investigating the correlation between various zero-cost proxies and the ground truth represented by the validation accuracy. The Spearman Rank Correlation was employed to measure the correlation, as discussed in \cref{sec:corr}. 
 
 \Cref{tab:corr} displays the obtained results, utilising the 693 architectures derived from the created benchmark. 
 \clearpage
@@ -28,20 +28,12 @@ The establishment of a benchmark provided the foundation for investigating the c
 \label{tab:corr}
 \end{table}
 
-\begin{comment}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.8\columnwidth]{figures/correlations.png}
-  \caption{Correlations for all zero-cost proxies over multiple epochs}
-  \label{fig:warmup}
-\end{figure}
-\end{comment}
 
 
-The results in \cref{tab:corr} reveal that specific proxies correlate strongly with the validation accuracy, while others demonstrate weaker correlations. \Cref{tab:corr} indices that Zen has the highest correlation with model performance, with a coefficient of $0.7827$. \gls{Synflow} is also performing well, with a coefficient of $0.7599$. This suggests that both Zen and \gls{synflow} are the most effective zero-cost proxies among the ones considered in this study. 
+The results in \cref{tab:corr} reveal that specific proxies correlate strongly with the validation accuracy, while others demonstrate weaker correlations. \Cref{tab:corr} indices that Zen has the highest correlation with model performance, with a coefficient of $0.7827$. \gls{Synflow} is also performing well, with a coefficient of $0.7599$. This suggests that Zen and \gls{Synflow} are the most effective zero-cost proxies among the ones considered in this study. 
 
 Conversely, the epe\_nas and jacov proxies exhibit a weak correlation with the model performance, with coefficients of $0.0090$ and $-0.0465$, respectively. 
 
-It is also worth noting that the l2\_norm, \gls{flops}, and params proxies show relatively strong correlations with coefficients of $0.7325$, $0.7241$, and $0.6164$, respectively. Although these proxies might be less effective than Zen and \gls{synflow}, they still demonstrate considerable potential for predicting model performance.
+It is also worth noting that the l2\_norm, \gls{FLOPs}, and params proxies show relatively strong correlations with coefficients of $0.7325$, $0.7241$, and $0.6164$, respectively. Although these proxies might be less effective than Zen and \gls{Synflow}, they still demonstrate considerable potential for predicting model performance.
 
 The findings of this correlation analysis provide valuable insights into the predictive capacity of each proxy in relation to the ground truth. This understanding can inform the development of more efficient and effective \gls{NAS} approaches, thereby reducing computational demands and enabling more rapid progress in the field.

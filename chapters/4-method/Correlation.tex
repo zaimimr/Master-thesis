@@ -1,8 +1,69 @@
 \section{Correlation}\label{sec:corr}
 
-One approach to understanding how different zero-cost proxies relate to the validation accuracy of the architecture is by calculating the correlation. Spearman Rank Correlation is a non-parametric statistical test that measures the strength and direction of the association between two ranked variables \autocite{hauke2011comparison}. The Spearman Rank does not assume a linear relationship between the two variables. However, it measures the strength of a monotonic relationship, which makes it suitable for cases where the relationship between the zero-cost proxy and the validation accuracy might not be linear. In addition, the metric is less sensitive to outliers since it relies on the rank of the variables rather than their raw values. This property makes the metric more robust when dealing with noisy or imprecise data, which can be expected in the context of zero-cost proxies. 
+Calculating the correlation between the score each zero-cost proxy provides and the validation accuracy is a logical approach to understanding the impact of the zero-cost proxies. Spearman Rank Correlation is a non-parametric statistical test that measures the strength and direction of the association between two ranked variables \autocite{hauke2011comparison}. The Spearman Rank does not assume a linear relationship between the two variables. It is suitable for cases where the connection between the validation accuracy and the zero-cost proxy may not be linear because it establishes the strength of a monotonic relationship. Additionally, the metric is less vulnerable to outliers because it focuses on the rank of the variables rather than their raw values.
 
-It is denoted by the symbol $\rho$ (rho) and ranges from -1 to 1, where -1 indicates a perfect negative relationship, 1 indicates a perfect positive relationship, and 0 shows no connection, as illustrated in \cref{fig:correlations_illustrated} \autocite{laerdstatistics}.  
+Exploring other correlation measures, such as the Pearson correlation coefficient, provides additional perspective. Pearson's is the most commonly used correlation method and provides insights into the strength and direction of a linear relationship \autocite{turney2022pearson}. 
+
+However, its utility for our project is limited due to several constraints. First, it assumes the variables in the dataset are normally distributed \autocite{turney2022pearson}. The Shapiro-Wilk test is a statistical test used to check whether a sample of numbers has been drawn from a normally distributed population, such that the null hypothesis is that the population is normally distributed \autocite{shaphiro1965analysis}. The null hypothesis is disregarded if the test's calculated p-value is less than the predetermined alpha level, typically 0.05. Discarding the null hypothesis means we have enough evidence to conclude that the data set under investigation does not exhibit a normal distribution. The Shapiro-Wilk test result for each variable (zero-cost proxy) is shown in \cref{tab:p_values}. 
+
+\begin{table}[h]
+\caption{P-values for each variable using the Shapiro-Wilk test}
+\centering
+\begin{tabular}{lr}
+\textbf{Name} & \textbf{P-value} \\ \hline
+\multicolumn{1}{l|}{\cellcolor{verylightgray}epe\_nas} & \cellcolor{verylightgray}$<1e-6$ \\
+\multicolumn{1}{l|}{fisher} & $< 1e-6$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}flops} & \cellcolor{verylightgray} $< 1e-6$ \\
+\multicolumn{1}{l|}{grad\_norm} & $< 1e-6$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}grad\_sign} & \cellcolor{verylightgray}$< 1e-6$ \\
+\multicolumn{1}{l|}{grasp} & $< 1e-6$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}jacov} & \cellcolor{verylightgray}$< 1e-6$ \\
+\multicolumn{1}{l|}{l2\_norm} & $< 1e-6$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}nwot} & \cellcolor{verylightgray}$0.003$ \\
+\multicolumn{1}{l|}{params} & $< 1e-6$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}plain} & \cellcolor{verylightgray} $< 1e-6$ \\
+\multicolumn{1}{l|}{snip} & $< 1e-6$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}synflow} & \cellcolor{verylightgray}$< 1e-6$ \\
+\multicolumn{1}{l|}{val\_acc} & $< 1e-6$ \\
+\multicolumn{1}{l|}{zen} & $< 1e-6$ \\
+\end{tabular}
+\label{tab:p_values}
+\end{table}
+
+The p-values for all variables are smaller than the significance level ($\alpha = 0.05$), as seen in the \cref{tab:p_values}. Therefore, we can disprove the Shapiro-Wilk test's null hypothesis for each variable, showing that the distributions of those variables considerably deviate from the normal distribution.
+
+Further, Pearson's correlation is highly sensitive to outliers. A few extreme observations can greatly distort the correlation coefficient, potentially leading to incorrect interpretations. This sensitivity is unwanted given that the zero-cost proxies may contain such outliers, as illustrated in \cref{fig:zero_cost_proxies_outliers}, in which one can observe that the data contains outliers. 
+
+Lastly, the Pearson correlation coefficient relies on the actual values of the variables, whereas our focus is more on their rankings, which makes the Spearman rank correlation a more suitable measure for our project.
+
+
+\clearpage
+
+\begin{figure}[h!]
+  \centering
+    \begin{adjustbox}{width=1.2\columnwidth,center}
+  \begin{tabular}{ccc}
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/epe_nas.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/fisher.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/flops.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/grad_norm.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/grad_sign.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/grasp.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/jacov.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/l2_norm.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/nwot.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/params.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/plain.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/snip.svg} \\
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/synflow.svg} &
+    \includesvg[width=0.5\textwidth]{figures/zc-proxies/zen.svg} 
+  \end{tabular}
+  \end{adjustbox}
+  \caption{Each zero-cost proxy normalised with the validation accuracy}
+  \label{fig:zero_cost_proxies_outliers}
+\end{figure}
+
+The Spearman Rank Correlation is denoted by the symbol $\rho$ (rho) and ranges from -1 to 1, where -1 indicates a perfect negative relationship, 1 indicates a perfect positive relationship, and 0 shows no connection, as illustrated in \cref{fig:correlations_illustrated} \autocite{laerdstatistics}.  
 
 \begin{figure}[h]
 \centering
@@ -81,10 +142,11 @@ It is denoted by the symbol $\rho$ (rho) and ranges from -1 to 1, where -1 indic
 \label{fig:correlations_illustrated}
 \end{figure}
 
-Spearman Rank Correlation works by calculating the difference in ranks of the two variables for each observation, then squaring these differences and summing them up. Mathematically, it is defined as: 
+Spearman Rank Correlation works by calculating the difference in ranks of the two variables for each observation, then squaring these differences and summing them up, as given in \cref{eq:spearman}. 
 
 \begin{equation} 
-\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}, 
+    \rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}, 
+    \label{eq:spearman}
  \end{equation}
 
 where $d_i$ is the difference in ranks for each observation, and $n$ is the number of observations.

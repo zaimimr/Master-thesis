@@ -1,11 +1,10 @@
 \section{Benchmark}
-Within \gls{NAS}, a benchmark is a collection of already trained and evaluated models that can be queried to obtain their validation accuracy. For research within \gls{NAS}, such benchmarks are crucial as they spare the researchers thousands of \gls{GPU} training time. Popular benchmarks within the literature are NAS-Bench-101 \autocite{ying2019bench}, NAS-Bench-201 \autocite{dong2020bench} and NAS-Bench-360 \autocite{tu2021bench}. These benchmarks contain thousand of trained and evaluated models on different datasets. However, to the best of our knowledge, 
-there exist no similar benchmarks for \gls{GCN} within \gls{HAR}. Consequently, a benchmark had to be created for later experiments in the thesis. \Cref{sec:gcn-nas} highlights how the framework used for generating and training models works in detail, \cref{sec:full_trained} goes into how the authors define a fully trained model and \cref{subsec:experimentalsetup} explains the basic methodology behind the creation of the benchmark.       
+Within \gls{NAS}, a benchmark is a collection of already trained and evaluated models that can be queried to obtain their validation accuracy. Such benchmarks are crucial for research within \gls{NAS}, as they spare the researchers thousands of \gls{GPU} training time. Popular benchmarks within the literature are NAS-Bench-101 \autocite{ying2019bench}, NAS-Bench-201 \autocite{dong2020bench} and NAS-Bench-360 \autocite{tu2021bench}. These benchmarks contain thousand of trained and evaluated models on different datasets. However, to our knowledge, no similar benchmarks exist for \gls{GCN} within \gls{HAR}. Consequently, a benchmark had to be created for later experiments in the thesis. \Cref{sec:gcn-nas} highlights how the framework used for generating and training models works in detail, \cref{sec:full_trained} goes into how the authors define a fully trained model and \cref{subsec:experimentalsetup} explains the basic methodology behind the creation of the benchmark.       
 
 \subsection{GCN-NAS}\label{sec:gcn-nas}
-To create the benchmark, the authors used the framework in the paper Learning Graph Convolutional Network for Skeleton-Based Human Action Recognition by Neural Searching \autocite{peng2020learning}. The framework provides ways to train individual models and run the provided \gls{NAS} algorithm to find the best architectures for a given problem. In addition, the framework is developed to be used on the NTU RGB+D dataset.  
+To create the benchmark, the authors used the framework in the paper Learning Graph Convolutional Network for Skeleton-Based Human Action Recognition by Neural Searching \autocite{peng2020learning}. The framework provides ways to train individual models and run the provided \gls{NAS} algorithm to find the best architectures for a given problem. In addition, the framework is developed to be used on the \gls{ntu-rgbd} dataset.  
 
-The search space consists of eight function modules that can be applied in each network layer. To extract features $U$ from a given node in a graph, the filter $g_{\theta}$ is approximated using Chebyshev polynomials with R-th order. The more significant R, the bigger the local receptive field of the \gls{GCN} layer will be. Chebyshev polynomial is recursive and is given in \cref{eq:chebyshev}. 
+The search space consists of eight function modules that can be applied in each network layer. To extract features $U$ from a given node in a graph, the filter $g_{\theta}$ is approximated using Chebyshev polynomials with $R\text{-th}$ order. The more significant $R$, the bigger the local receptive field of the \gls{GCN} layer will be. Chebyshev polynomial is recursive and is given in \cref{eq:chebyshev}. 
 
 \begin{equation}
     \bm{Y} = \sum^R_{r=0} \theta_r' \bm{T_r} (\bm{\hat{L}})\bm{X},
@@ -39,7 +38,7 @@ Similarly, $\theta^{'}$ can be approximated with a unified parameter $\theta$; t
 
 Given the available search space, the networks may have different combinations of R-th order Chebyshev-polynomials. Intuitively, using higher R-th order, the filters of each layer will be able to aggregate more information from the neighbours as the hops increase. 
 
-In addition, the search space consists of three dynamic graph modules; spatial, temporal and spatial-temporal. Spatial features refer to the composition of the joints in a single frame, typically represented as a set of 3D coordinates. These spatial features capture the posture and pose of the human body at a given time point, but they do not capture the motion dynamics over time. On the other hand, temporal features capture how spatial features change over time. Through a series of frames, these features encode movement and action information. Finally, spatial-temporal features combine the spatial and temporal aspects to capture both the posture and dynamics of motion over time.  
+In addition, the search space consists of three dynamic graph modules; spatial, temporal and spatial-temporal. The composition of the joints in a single frame is referred to as a spatial feature, and it is commonly represented as a set of 3D coordinates. These spatial features capture the posture and pose of the human body at a given time point, but they do not capture the motion over time. On the other hand, temporal features capture how spatial features change over time. Through a series of frames, these features capture movement and action information. Finally, spatial-temporal features combine the spatial and temporal aspects to capture both the posture and dynamics of motion over time.  
 
 To illustrate, \cref{fig:found_architecture} shows the best-performing architecture searched in the paper. 
 \clearpage
@@ -81,36 +80,13 @@ Although the imposed threshold may not guarantee that every model reaches its ab
 
 The algorithm for generating and evaluating random architectures is described in \cref{alg:random_arch_gen_eval}. The benchmark consists of a large-scale dataset comprising a diverse set of fully trained architectures to facilitate a comprehensive investigation into the performance of zero-cost proxies.
 
-To generate random architectures, the framework described in \cref{sec:gcn-nas} was utilised as a foundation for developing an algorithm that implements a unique structure generation process to prevent the creation of duplicate architectures. The algorithm was constrained to create models consisting of four, six, eight, or ten layers to ensure a diverse range of architectures and explore a more comprehensive search space. In addition, other constraints were imposed, such as requiring at least one spatial, temporal, or spatial-temporal function module for effective feature extraction from the data.
-
-
-\begin{comment}
-    
-\begin{algorithm}
-\caption{Random Architecture Generation and Evaluation}
-\label{alg:random_arch_gen_eval}
-\begin{algorithmic}[1]
-\Require{$N$: number of architectures to generate}
-\State Define constraints for layer count and function modules
-\State Initialize $i \gets 0$
-\While{$i < N$}
-    \State Generate a random architecture $A_i$ within constraints
-    \If{not exists($A_i$)}
-        \State Train $A_i$ for up to 70 epochs
-        \State Compute validation accuracy $V_i$ of $A_i$
-        \State Store $A_i$ and $V_i$ in the benchmark dataset
-        \State $i \gets i + 1$
-    \EndIf
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
-\end{comment}
+To generate random architectures, the framework described in \cref{sec:gcn-nas} was utilised to develop an algorithm that avoids generating already generated architectures. The algorithm was constrained to create models consisting of four, six, eight, or ten layers to ensure a various range of architectures and explore a more comprehensive search space. In addition, other constraints were imposed, such as requiring at least one spatial, temporal, or spatial-temporal function module for effective feature extraction from the data.
 
 \begin{algorithm}
 \caption{Random Architecture Generation and Evaluation}
 \label{alg:random_arch_gen_eval}
 \begin{algorithmic}[1]
-\Require{$N$: number of architectures to generate}
+\Require{Number of architectures $N$ }
 \State Define constraints for layer count and function modules
 \State Initialize $i \gets 0$
 \While{$i < N$}

@@ -1,25 +1,25 @@
 \subsection{Neural Networks}\label{neuralnet}
-Neural Networks are a part of neurocomputing, a field of study that aims to develop computational systems inspired by the human brain's structure and function. For example, pattern recognition, motor control, vision, flexible inference, intuition, and accurate guessing are all skills the brain is particularly adept at, which is what neural networks aim to emulate \autocite{anderson1995introduction}. 
+Neural Networks are a part of neurocomputing, which aims to develop computational systems inspired by the human brain's structure and function. For example, pattern recognition, motor control, vision, flexible inference, intuition, and accurate guessing are all skills the brain is particularly adept at, which is what neural networks aim to emulate \autocite{anderson1995introduction}. 
 
-At a high level, a neural network is a collection of interconnected nodes (called "neurons") arranged in layers. The input layer receives input data, which is passed through one or more hidden layers before the output from the final layer.
+At a high level, a neural network is a collection of related nodes (called "neurons") arranged in layers. Data is sent to the input layer, where one or more hidden levels process it before being output by the final layer.
 
-The basic unit of a neural network is a neuron, which receives input from other neurons or the input layer. The neuron then applies a mathematical function to this input, producing an output sent to other neurons in the next layer. The most commonly used function is the sigmoid function, given in \cref{eq:sigmoid}. 
+The basic unit of a neural network is a neuron, which receives input from other neurons or the input layer. The neuron then uses a mathematical function to this input, producing an output which is sent to other neurons in the next layer. The most commonly used function is the sigmoid function, given in \cref{eq:sigmoid}. 
 
 \begin{equation}
     \sigma(z) = \frac{1}{1+e^{-z}}
     \label{eq:sigmoid}
 \end{equation}
 
-where $z$ is the input to the neuron, the sigmoid function has the valuable property that its output is always between 0 and 1, which can be interpreted as a probability.
+where $z$ is the input to the neuron. The sigmoid function always outputs a decimal between 0 and 1, which can be interpreted as a probability.
 
-The output of a neuron is determined by the weights and biases associated with its inputs. Each input is multiplied by a weight, and these weighted inputs are summed together with a bias term to produce the neuron's input, as shown in \cref{eq:z}. 
+The output of a neuron is determined by the weights and biases associated with its inputs. Each input is multiplied by a weight, and these weighted inputs are summed together with a bias to produce the neuron's input, as shown in \cref{eq:z}. 
 
 \begin{equation}
     z = \sum_{i=1}^n w_i x_i + b
     \label{eq:z}
 \end{equation}
 
-where $w_i$ is the weight associated with the $i$th input, $x_i$ is the value of the $i$th input, $n$ is the number of inputs, and $b$ is the bias term.
+where $w_i$ is the weight, $x_i$ is the value of the $i$th input, $n$ is the number of inputs, and $b$ is the bias. 
 
 \Cref{eq:y} exhibits the neuron output when applying the sigmoid function to the input.
 
@@ -28,7 +28,7 @@ where $w_i$ is the weight associated with the $i$th input, $x_i$ is the value of
     \label{eq:y}
 \end{equation}
 
-During the training process, which comprises feeding training data through the network (illustrated in \cref{fig:nn}) and modifying the weights and biases based on the difference between the predicted output and the actual output, the weights and biases of a neural network are changed. Usually, a gradient descent optimisation technique is used to carry out this operation.
+During the training process, which includes feeding training data through the network (illustrated in \cref{fig:nn}) and modifying the weights and biases based on the difference between the predicted output and the actual output (target), the weights and biases of a neural network are adjusted. Usually, a gradient descent optimisation technique is used to carry out this operation.
 
 \begin{figure}[h]
 \resizebox{\textwidth}{!}{\begin{tikzpicture}[x=3cm, y=1.5cm, >=stealth]

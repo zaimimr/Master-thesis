@@ -23,8 +23,12 @@ The weighted arithmetic mean, as described in \autocite{wam}, is a widely used t
 \end{algorithm}
 
 
-As illustrated in \cref{alg:weighted_mean}, each zero-cost proxy value is first normalised with min-max normalisation, ensuring they are on a comparable scale for accurate comparison and combination. Next, weights were assigned to each zero-cost proxy based on their performance. Finally, Spearman's rank correlation evaluated the correlation between each proxy and the validation accuracy. Higher correlation values indicated better performance, and proxies with stronger correlations received larger weights.
+As illustrated in \cref{alg:weighted_mean}, each zero-cost proxy value is first normalised with min-max normalisation, ensuring they are on a comparable scale for accurate comparison and combination. Next, weights were assigned to each zero-cost proxy based on their performance. Finally, Spearman's rank correlation evaluated the correlation between each proxy and the validation accuracy. Higher correlation values indicated better performance and proxies with stronger correlations received larger weights.
 
-For the weighted arithmetic mean calculation, the normalised value of each zero-cost proxy was multiplied by its respective weight for every data point, and the products were summed. The combined score was then calculated by dividing the sum of these products by the total sum of the weights, using the formula: \begin{equation*} \text{Score} = \frac{\sum x_i * w_i }{\sum w_i} \end{equation*} where $w_i$ is the weight assigned to the $\text{i-th}$ zero-cost proxy, $x_i$ represents the normalised value of the $\text{i-th}$ zero-cost proxy. The sums are calculated using all zero-cost proxies.
+For the weighted arithmetic mean calculation, the normalised value of each zero-cost proxy was multiplied by its respective weight for every data point, and the products were summed. The combined score was then calculated by dividing the sum of these products by the total sum of the weights using the formula: 
+\begin{equation*} 
+    \text{Score} = \frac{\sum x_i * w_i }{\sum w_i}, 
+\end{equation*} 
+where $w_i$ is the weight assigned to the $\text{i-th}$ zero-cost proxy, $x_i$ represents the normalised value of the $\text{i-th}$ zero-cost proxy. The sums are calculated using all zero-cost proxies.
 
-After obtaining the combined scores, the architectures were ranked based on these scores, with higher scores indicating better-performing architectures. Finally, the effectiveness of the weighted arithmetic mean approach was assessed by calculating the correlation between the weighted arithmetic mean score and the validation accuracy using Spearman's rank correlation coefficient.
+After obtaining the combined scores, the architectures were ranked based on these scores, with higher scores indicating better-performing architectures. Finally, the effectiveness of the weighted arithmetic mean approach was evaluated by calculating the correlation between the weighted arithmetic mean score and the validation accuracy using Spearman's rank correlation coefficient.

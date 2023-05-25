@@ -15,22 +15,6 @@ For contextual comparison, NASBench-101 is a benchmark for \gls{NAS} introduced 
 
 \subsection{Reduced Search Time and Future Benefits}
 
-\begin{comment}
-\begin{itemize}
-    \item Discuss how this approach might reduce the time spent on neural architecture search
-    \item Address the broader implications of such reductions, such as enabling more efficient research, reducing the overall environmental impact of the field, and making neural architecture search more accessible to researchers with limited resources.
-\end{itemize}
-\end{comment}
-
 Creating a benchmark involves substantial time and energy investments, as demonstrated in this study and other benchmarks \autocite{dong2020bench, ying2019bench, tu2021bench}. In addition, training and evaluating diverse neural network architectures requires significant computational resources, leading to increased energy consumption and longer training durations. Therefore, although the research required a considerable investment in \gls{GPU} days, the long-term benefits of this investment should be considered. 
 
 The most naive approach for any general \gls{NAS} algorithm is to generate a set of candidate architectures, train them until convergence, and find the best-performing architecture. However, this approach is computationally infeasible when the search space is ample. In addition, this specific approach exhibits a substantial carbon footprint because of its extensive usage of \gls{GPU} days. This study and similar studies \autocite{abdelfattah2021zero, colin2022adeeperlook} have discussed how zero-cost proxies might be used within a \gls{NAS} algorithm to speed up the search process significantly. Consequently, creating a benchmark for exploring the possibilities of reducing the computationally heavy search process should be considered as a small investment for a more significant impact. The investment can be perceived as a stepping stone towards developing more efficient and sustainable approaches in the long run.
-
-\begin{comment}
-    
-\subsection{Balancing Performance and Environmental Impact}
-\begin{itemize}
-    \item Acknowledge the trade-offs between performance, energy consumption, and carbon emissions
-    \item Discuss the importance of considering environmental implications when developing new algorithms and techniques
-\end{itemize}
-\end{comment}

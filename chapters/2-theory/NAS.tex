@@ -1,6 +1,6 @@
-\section{Neural Architecture Search} \label{section:nas}
-
-Most neural architectures are created by specialists, which is labour-intensive and susceptible to weaknesses or errors. Subsequently, a way of automatically designing and developing such algorithms has been a research field for a couple of years. Thus, \gls{NAS} aims to automate the previously manual process of designing architectures \autocite{elsken2019neural}. Consequently, \gls{NAS} is a sub-field of \gls{AutoML} (\cref{section:automl}). 
+\section{Neural Architecture Search (NAS)} \label{section:nas}
+\glsreset{NAS}
+Most neural architectures are created by specialists, which is labour-intensive and susceptible to other weaknesses. Subsequently, a way of automatically designing and developing such algorithms has been a research field for a couple of years. Thus, \gls{NAS} aims to automate the previously manual process of designing architectures \autocite{elsken2019neural}. Consequently, \gls{NAS} is a sub-field of \gls{AutoML} (\cref{section:automl}). 
 
 Given the search space $F$, a training set $D_{\text{train}}$, validation set $D_{\text{valid}}$ and an evaluation metric $M$, the \gls{NAS} problems aims at finding an optimal architecture $f^* \in F$ with the best metric $M^*$ on the validation set $D_{\text{valid}}$. This can be written mathematically as 
 
@@ -14,21 +14,20 @@ Given the search space $F$, a training set $D_{\text{train}}$, validation set $D
 
 where $\theta^*$ is the learned parameters for the architecture $f$ and $L$ is the loss function \autocite{zhou2019auto}. 
 
-
-
-
 \Cref{fig:nas_overview} shows how \gls{NAS} works. The search space gives the algorithm a constraint regarding how it can be developed by defining a set of architectural choices the model might use. For example, the constraint might be different operations such as convolution, fully connected and pooling. One might argue that this is vital as selecting the search space can reduce the search's complexity, which is crucial to produce an acceptable model \autocite{kyriakides2020introduction}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=12cm]{figures/NAS_overview.png}
-    \caption{An overview of the different methods in \gls{NAS} \autocite{elsken2019neural} }
+    \caption{An overview of the different methods in NAS \autocite{elsken2019neural} }
     \label{fig:nas_overview}
 \end{figure}
 
 After defining a search space for the given problem, a \gls{NAS} search algorithm will specify how to analyse the search space and propose a set of candidate architectures. This introduces the exploration-exploitation trade-off, which indicates that selecting an appropriate optimisation technique is vital because we want to find a global optimum and ensure that the search space is sufficiently investigated \autocite{kyriakides2020introduction}. 
 
-The framework must perform performance estimation for each candidate architecture to adjust the search strategy. The simplest solution is to train and validate the model, which is too computationally expensive because it usually involves training days for \gls{GPU}. Furthermore, many hours of training require a lot of energy, which has a high environmental cost. Another downside of training the architectures is that it will limit the number of architectures the search algorithm might discover. As a result, methods simplifying this phase have been undergoing research heavily \autocite{elsken2019neural}. 
+The framework must perform performance estimation for each candidate architecture to adjust the search strategy. The simplest solution is to train and validate the model, which is too computationally expensive because it usually involves training days for \gls{GPU}. Furthermore, many hours of training require a lot of energy, which has a high environmental cost. Another downside of training the architectures is that it will limit the number of architectures the search algorithm might discover. As a result, methods simplifying this phase have been undergoing heavy research \autocite{elsken2019neural}. 
+
+Another goal of NAS is to discover optimal architectures concerning ...
 
 \input{chapters/2-theory/NAS/weakness.tex}
 \input{chapters/2-theory/NAS/search space}

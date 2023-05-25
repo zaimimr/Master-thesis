@@ -1,6 +1,6 @@
 \subsection{Performance Estimation}
 \subsubsection{Performance Predictors}\label{sec:performancepredictors}
-As mentioned in \cref{section:nas}, \gls{NAS} aims to automate the process of designing high-performing neural networks. However, this often requires training all the candidate networks, either partly or wholly, to get the accuracy of the neural networks. In most cases, this is an infeasible approach when the search space is big, which is why performance predictors are introduced \autocite{akhauri2022evolving}. 
+As mentioned in \cref{section:nas}, \gls{NAS} aims to automate designing high-performing neural networks. However, this often requires training all the candidate networks, either partly or wholly, to get the accuracy of the neural networks. In most cases, this is an infeasible approach when the search space is big, which is why performance predictors are introduced \autocite{akhauri2022evolving}. 
 
 Any function that forecasts the eventual accuracy or ranking of architectures without fully training the architecture is referred to as a performance predictor $f$. Therefore, the performance predictor's function should take significantly less time than training and validating the neural network fully and have a high correlation or rank correlation with the validation error \autocite{white2021powerful}. 
 

@@ -1,9 +1,32 @@
-\chapter{Additional Material}
-\label{app:additional}
 
-Additional material that does not fit in the main thesis but may still be relevant to share, e.g., raw data from experiments and surveys, code listings, additional plots, pre-project reports, project agreements, contracts, logs etc., can be put in appendices. Simply issue the command \texttt{\textbackslash appendix} in the main \texttt{.tex} file, and make one chapter per appendix.
+\chapter{Use of the Zero-Cost Framework on GNN-NAS Project}
+\label{app:gnn-nas}
 
-If the appendix is in the form of a ready-made PDF file, it should be supported by a small descriptive text, and included using the \texttt{pdfpages} package. To illustrate how it works, a standard project agreement (for the IE faculty at NTNU in Gjøvik) is attached here. You would probably want the included PDF file to begin on an odd (right hand) page, which is achieved by using the \texttt{\textbackslash cleardoublepage} command immediately before the \texttt{\textbackslash includepdf[]\{\}} command. Use the option \texttt{[pages=-]} to include all pages of the PDF document, or, e.g., \texttt{[pages=2-4]} to include only the given page range.
+The research group at DeepInMotion is currently engaged in a project that develops a \gls{GNN}-\gls{NAS} framework for \gls{HAR}. By giving us access to the codebase and providing 38 trained architectures with the corresponding validation accuracy, we could perform a small experiment similar to what is conducted in this thesis. We calculated the Spearman Correlation for every zero-cost proxy using this thesis's developed Zero-Cost framework (\cref{sec:zc-framework}). The results are presented in \cref{tab:gnn-nac-zc}. 
 
-\cleardoublepage
-\includepdf[pages=-]{appendices/NTNUProsjektavtale.pdf}
+\begin{table}[!h]
+    \centering
+    {\footnotesize \begin{tabular}{l|rr}
+                            & \multicolumn{2}{l}{Spearman $\rho$}                          \\ 
+                            & \cellcolor[HTML]{EFEFEF}\textbf{acc\_top1}              & \cellcolor[HTML]{EFEFEF}\textbf{acc\_top5}              \\ \hline
+        EPE-NAS   & 0.0712                          & 0.0806                          \\ 
+        \cellcolor[HTML]{EFEFEF}Fisher     & \cellcolor[HTML]{EFEFEF}-0.5170 & \cellcolor[HTML]{EFEFEF}-0.5589 \\ 
+        Flops      & 0.2923                          & 0.2740                          \\ 
+        \cellcolor[HTML]{EFEFEF}Grad Norm & \cellcolor[HTML]{EFEFEF}\textbf{0.8720}  & \cellcolor[HTML]{EFEFEF}\textbf{0.8989}  \\ 
+        GradSign & -0.2323                         & -0.2790                         \\ 
+        \cellcolor[HTML]{EFEFEF}Grasp      & \cellcolor[HTML]{EFEFEF}0.6172  & \cellcolor[HTML]{EFEFEF}0.6594  \\ 
+        Jacov      & -0.0951                         & -0.0561                         \\ 
+        \cellcolor[HTML]{EFEFEF}L2 norm   & \cellcolor[HTML]{EFEFEF}-0.1661 & \cellcolor[HTML]{EFEFEF}-0.1403 \\ 
+        NAS-WOT       & 0.1326                          & 0.2132                          \\ 
+        \cellcolor[HTML]{EFEFEF}Params     & \cellcolor[HTML]{EFEFEF}0.2658  & \cellcolor[HTML]{EFEFEF}0.2658  \\ 
+        Plain      & -0.0117                         & 0.0028                          \\ 
+        \cellcolor[HTML]{EFEFEF}Snip       & \cellcolor[HTML]{EFEFEF}0.7937  & \cellcolor[HTML]{EFEFEF}0.8097  \\ 
+        Synflow    & -0.1710                         & -0.2460                         \\ 
+        \cellcolor[HTML]{EFEFEF}Zen        & \cellcolor[HTML]{EFEFEF}-0.1852 & \cellcolor[HTML]{EFEFEF}-0.1875
+    \end{tabular}}
+    \caption[]{Spearman Correlation between zero-cost proxies and validation accuracy.}
+    \label{tab:gnn-nac-zc}
+\end{table}
+
+The results show that both Grad Norm and Snip exhibit very strong correlation with a Spearman Rank Correlation of $(0.8720, 0.8989)$ and $(0.7938, 0.8097)$, respectively. Note that with only 38 data points, the analysis might lack the statistical power needed to detect the correlation confidently. Nevertheless, the results show great potential and can be a good option to include in the framework in the future. 
+

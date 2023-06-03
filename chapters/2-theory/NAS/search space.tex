@@ -1,35 +1,81 @@
 \subsection{Search Space}
 When searching for a high-performing architecture, there are infinite variations that one might investigate. As a result, one defines a search space that gives the search algorithm constraints regarding what kind of combinations it might examine. Prior knowledge of what kind of search space is effective on specific tasks may reduce the size, but it has the disadvantage of introducing human bias in the search space \autocite{elsken2019neural}.  
 
-Global search space is a way in which it tries to combine all possible operations to create chain-structured (sequential) networks. Then, the search space has the following parameters:
-\begin{itemize}
-    \item the number of layers
-    \item the type of each operation
-    \item the hyperparameters of each operation, namely kernel size, number of filters etc. 
-\end{itemize}
+Global search space is a way in which it tries to combine all possible operations to create chain-structured (sequential) networks. Then, the search space has the parameters given in \cref{tab:params}. 
 
-Such a network can be described as a sequence of $n$ layers, where layer $L_i$ takes $L_{i-1}$ as input. However, this sort of search space is enormous and very expensive. 
+\begin{table}[ht]
+\caption{Search Space Parameters}
+\centering
+\begin{tabular}{|l}
+The number of layers \\
+\cellcolor{verylightgray}The type of each operation    \\
+The hyperparameters of each operation, \\ namely kernel size, number of filters etc. \\
+\end{tabular}
+\label{tab:params}
+\end{table}
 
-Cell-based representations were inspired by successful architectures using repeated modules (Inception, ResNet). NASNet paper \autocite{DBLP:journals/corr/ZophVSL17}, is one of the most popular cell- or block-based approaches. Cell-based representations differ from global search space because they search for cells or blocks instead of whole architectures \autocite{elsken2019neural}. \cite{DBLP:journals/corr/ZophVSL17} learns two sorts of cells; a normal cell which performs feature extraction (preserving dimensionality), and a reduction cell which reduces the dimensionality. By stacking such cells, we get the final architecture, as shown in \cref{fig:cells}. 
+Such a network can be described as a sequence of $n$ layers, where layer $L_i$ takes $L_{i-1}$ as input, as given in \cref{fig:cells1}. However, this sort of search space is enormous and very expensive. 
 
-\clearpage
+Cell-based representations were inspired by successful architectures using repeated modules (Inception, ResNet). The NASNet paper \autocite{DBLP:journals/corr/ZophVSL17} is one of the most popular cell- or block-based approaches. Cell-based representations differ from global search space because they search for cells or blocks instead of whole architectures \autocite{elsken2019neural}. \cite{DBLP:journals/corr/ZophVSL17} explains two sorts of cells; a normal cell which performs feature extraction (preserving dimensionality), and a reduction cell which reduces the dimensionality. By stacking such cells, we get the final architecture, as shown in \cref{fig:cells2}. 
 
-\begin{figure}
+
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=8cm]{figures/cells.png}
-    \caption{Left: chain-structured network, right: cells combined into an architecture}
-    \label{fig:cells}
+    \begin{subfigure}{.5\textwidth}
+    \centering
+        \begin{tikzpicture}
+            \node (input) [rectangle, rounded corners, text centered, draw=black, minimum width=1.5cm, minimum height=0.5cm] {Input};
+            \node (l0) [rectangle, rounded corners, text centered, draw=black, fill=gray!20, minimum width=1.5cm, minimum height=0.5cm, below of=input, yshift=-0.25cm] {$L_0$};
+            \node (l1) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=1.5cm, minimum height=0.5cm, below of=l0, yshift=-0.25cm] {$L_1$};
+            \node (ln) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=1.5cm, minimum height=0.5cm, below of=l1, yshift=-0.5cm] {$L_n$};
+            \node (output) [rectangle, rounded corners, text centered, draw=black, minimum width=1.5cm, minimum height=0.5cm, below of=ln, yshift=-0.25cm] {Output};
+        
+            \draw [thick,->,>=stealth] (input) -- (l0);
+            \draw [thick,->,>=stealth] (l0) -- (l1);
+            \draw [dotted, -, >=stealth] (l1) -- (ln);
+            \draw [thick,->,>=stealth] (ln) -- (output);
+    \end{tikzpicture}
+    \caption{Chain-structured network}
+    \label{fig:cells1}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \begin{tikzpicture}
+            \node (input) [rectangle, rounded corners, text centered, draw=black, minimum width=1.5cm, minimum height=0.5cm] {Input};
+        
+            \node (l0) [rectangle, rounded corners, text centered, draw=black, fill=gray!20, minimum width=1.5cm, minimum height=0.5cm, below of=input, yshift=-0.25cm, xshift=-2cm] {};
+            \node (l1) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=1.5cm, minimum height=0.5cm, below of=input, yshift=-0.25cm, xshift=2cm] {};
+            \node (l2) [rectangle, rounded corners, text centered, draw=black, fill=gray!20, minimum width=1.5cm, minimum height=0.5cm, below of=l0, yshift=-0.25cm] {};
+            \node (l3) [rectangle, rounded corners, text centered, draw=black, fill=gray!20, minimum width=1.5cm, minimum height=0.5cm, below of=l2, yshift=-0.25cm, xshift=2cm] {};
+            \node (l4) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=1.5cm, minimum height=0.5cm, below of=l3, yshift=-0.25cm] {};
+            \node (l5) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=1.5cm, minimum height=0.5cm, below of=l4, yshift=-0.25cm, xshift=-2cm] {};
+            \node (l6) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=1.5cm, minimum height=0.5cm, below of=l4, yshift=-0.25cm, xshift=2cm] {};
+            \node (l7) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=1.5cm, minimum height=0.5cm, below of=l5, yshift=-0.25cm, xshift=2cm
+            ] {};
+            \node (output) [rectangle, rounded corners, text centered, draw=black, minimum width=1.5cm, minimum height=0.5cm, below of=l7, yshift=-0.25cm] {Output};
+        
+            \draw [thick, ->, >=stealth] (input) --(l0);
+            \draw [thick, ->, >=stealth] (input) --(l1);
+            \draw [thick, ->, >=stealth] (l0) --(l2);
+            \draw [thick, ->, >=stealth] (l2) --(l3);
+            \draw [thick, ->, >=stealth] (l1) --(l3);
+            \draw [thick, ->, >=stealth] (l3) --(l4);
+            \draw [thick, ->, >=stealth] (l4) --(l5);
+            \draw [thick, ->, >=stealth] (l4) --(l6);
+            \draw [thick, ->, >=stealth] (l6) --(l7);
+            \draw [thick, ->, >=stealth] (l5) --(l7);
+            \draw [thick, ->, >=stealth] (l7) --(output);
+        
+            \node[fit=(l0) (l1) (l2) (l3), rectangle, dotted, draw, inner sep=4pt] {};
+            \node[fit=(l4) (l5) (l6) (l7), rectangle, dotted, draw, inner sep=4pt] {};
+        \end{tikzpicture}
+    
+    \caption{Cells combined into an architecture}
+    \label{fig:cells2}
+    \end{subfigure}
+    \caption{Search Space variations}
 \end{figure}
 
-\begin{tikzpicture}
-    \node (input) [rectangle, rounded corners, text centered, draw=black, minimum width=3cm, minimum height=1cm] {Input};
-    \node (l0) [rectangle, rounded corners, text centered, draw=black, fill=gray!50, minimum width=3cm, minimum height=1cm, below of=input] {$L_0$};
-    \node (l1) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=3cm, minimum height=1cm, below of=l0] {$L_1$};
-    \node (ln) [rectangle, rounded corners, text centered, draw=black, fill=gray!70, minimum width=3cm, minimum height=1cm, below of=l1] {$L_n$};
-    \node (output) [rectangle, rounded corners, text centered, draw=black, minimum width=3cm, minimum height=1cm, below of=ln] {Output};
-\end{tikzpicture}
 
-\clearpage
 
 \subsubsection{Directed Acyclic Graphs}
 \glsreset{DAG}

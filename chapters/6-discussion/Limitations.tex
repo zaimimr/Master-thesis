@@ -5,27 +5,23 @@ One of the main limitations of this study is the relatively small dataset size. 
 
 Although this dataset provides insights into the relationship between zero-cost proxies and the performance of \gls{GCN} models within \gls{HAR} tasks, the small number of trained architectures may limit the generalisability of the findings. A larger dataset with more architectures could reveal more subtle relationships between the proxies and the validation accuracy, leading to more accurate conclusions.
 
-The relatively small dataset size may also affect the statistical significance of our results. With a larger dataset, one could observe stronger correlations between the zero-cost proxies and the validation accuracy, strengthening the validity of our conclusions. Additionally, a larger dataset would allow for a more robust exploration of potential relationships between different architectures and proxy scores.
+The relatively small dataset size may also affect the statistical significance of our results. Additionally, a larger dataset would allow for a more robust exploration of potential relationships between different architectures and proxy scores.
 
 Future work should expand the dataset to address these limitations by incorporating more trained architectures with varying characteristics. This would increase the generalisability of the findings and enable a more comprehensive understanding of the relationships between zero-cost proxies and the performance of \gls{GCN} models within \gls{HAR} tasks.
 
 
-\subsection{Limitations of Relying Solely on the GCN-NAS Framework for NAS Acceleration}
+\subsection{Limitations of Relying Solely on the GCN-NAS Framework}
 
-Using the \gls{GCN}-\gls{NAS} framework for developing a \gls{NAS} acceleration technique for \glspl{GCN} offers a valuable starting point. However, focusing exclusively on this framework introduces limitations that may affect the \gls{NAS} acceleration approach's generalisability, robustness, and thoroughness. This section will present a discussion of these limitations and their potential impact on the applicability of the acceleration technique to other \gls{GCN}-\gls{NAS} frameworks.
+Using the \gls{GCN}-\gls{NAS} framework for exploring the effectiveness of zero-cost proxies offers a valuable starting point. However, focusing exclusively on this framework introduces limitations that may affect the approach's generalisability, robustness, and thoroughness. This section will discuss these limitations and their potential impact on the approach's applicability to other \gls{GCN}-\gls{NAS} frameworks.
 
-\subsubsection{Limited Generalisability}
-By concentrating on the \gls{GCN}-\gls{NAS} framework, the developed \gls{NAS} acceleration technique may become tailored to the specific characteristics of this framework, thereby restricting its generalisability to other \gls{GCN}-\gls{NAS} frameworks. This limitation could compromise the effectiveness of the acceleration method when applied to alternative \gls{GCN}-\gls{NAS} frameworks with different search spaces, function modules, or optimisation techniques.
 
-\subsubsection{Lack of Comparative Analysis}
+By concentrating on the \gls{GCN}-\gls{NAS} framework, the approach may become tailored to the specific characteristics of this framework, thereby restricting its generalisability to other \gls{GCN}-\gls{NAS} frameworks. This limitation could compromise the method's effectiveness when applied to alternative \gls{GCN}-\gls{NAS} frameworks with different search spaces, function modules, or optimisation techniques.
+
+
 The unavailability of multiple \gls{GCN}-\gls{NAS} frameworks for evaluation prevents a comprehensive comparative analysis, making it challenging to identify the relative strengths and weaknesses of the proposed \gls{NAS} acceleration technique. However, with the ability to compare performance across frameworks, pinpointing areas of improvement or potential pitfalls in the acceleration method becomes more effortless. 
-
-It should be noted that an attempt to implement the Zero-Cost Framework (\cref{sec:zc-framework}) into a new \gls{GCN}-\gls{NAS} framework developed by the InMotion team at \gls{NTNU} and St. Olavs Hospital was conducted. However, as this is outside this thesis's scope and due to time limitations, the results are not included. However, the initial experiments show that $ \rho >0.8$ score for multiple proxies. The \gls{GCN}-\gls{NAS} framework is still under development and can be explored further when completed. The initial results can be found in Appendix X. 
-
-
-    
-\subsubsection{Difficulty in Validating Robustness}
 
 Evaluating the zero-cost proxies on a single \gls{GCN}-\gls{NAS} framework restricts the ability to assess the technique's robustness. The proxies should be tested across multiple frameworks to determine their adaptability to various search spaces, hyperparameter configurations, and problem domains. This lack of validation can lead to overestimating the technique's performance, potentially concealing its weaknesses.
 
-Future research could consider utilising multiple \gls{GCN}-\gls{NAS} frameworks to address these limitations, exploring diverse search strategies and validating the acceleration technique across different problem domains. 
+It should be noted that an attempt to implement the Zero-Cost Framework (\cref{sec:zc-framework}) into a new \gls{GCN}-\gls{NAS} framework developed by the \href{https://www.ntnu.edu/inb/deepinmotion}{DeepInMotion} team at \gls{NTNU} and St. Olavs Hospital was conducted. However, as this is outside this thesis's scope, the results are not included. The initial experiments exhibit a Spearman Rank $ \rho \gtrapprox 0.8$ for multiple proxies. The \gls{GCN}-\gls{NAS} framework is still under development and can be explored further when completed. The initial results can be found in \cref{app:gnn-nas}. 
+
+Future research could consider utilising multiple \gls{GCN}-\gls{NAS} frameworks to address these limitations, exploring diverse search strategies and validating the technique across different problem domains. 

@@ -1,15 +1,15 @@
 \section{Zero-Cost Framework}\label{sec:zc-framework}
 
-A novel Zero-Cost framework was created to calculate the scores of each zero-cost proxy. The framework, influenced by \cref{abdelfattah}, has been developed as a versatile plug-and-play solution easily integrated into any \gls{NAS} project. The primary goal of this framework is to provide an efficient and effective means of using zero-cost proxies for performance prediction. These proxies are described in detail in \cref{zcproxies}.
+A novel Zero-Cost framework was created to calculate the scores of each zero-cost proxy. The framework, influenced by \cref{abdelfattah}, was developed as a versatile plug-and-play solution to be easily integrated into any \gls{NAS} project. The primary goal of this framework is to provide an efficient and effective method of using zero-cost proxies for performance prediction.
 
+\Cref{alg:zc_framework} outlines calculating zero-cost proxies for a given model. The algorithm takes four inputs: the model, a data loader, a loss function, and an optional override parameter. The model represents the neural network architecture under evaluation, while the data loader and the loss function are used for calculating the proxy metrics. The optional override parameter allows users to calculate only specified proxies selectively.
 
-
-\begin{algorithm}
+\begin{algorithm}[htbp]
     \begin{algorithmic}[1]
         \caption{Calcuate Zero-Cost Proxies}\label{alg:zc_framework}
         \Require model, data\_loader, loss\_function, override
         \State score\_store $\gets$ dict()
-        \State proxies $\gets$ getProxies() \Comment{Get all implemented proxies}
+        \State proxies $\gets$ getProxies() 
         \\
         \For{proxy in proxies}
             \If{override is not empty}
@@ -24,14 +24,12 @@ A novel Zero-Cost framework was created to calculate the scores of each zero-cos
             \State score\_store.proxy.score $\gets$ score
         \EndFor
         \\
-        \State \Return scoreStore
+        \State \Return score\_store
         
     \end{algorithmic}
 \end{algorithm}
 
-\Cref{alg:zc_framework} outlines calculating Zero-Cost proxies for a given model. The algorithm takes four inputs: the model, a data loader, a loss function, and an optional override parameter. The model represents the neural network architecture under evaluation, while the data loader and the loss function are used for calculating the proxy metrics. The optional override parameter allows users to calculate only specified proxies selectively.
+An empty \textit{score\_store} is initialised to keep track of the calculated scores and the time taken for each proxy. The algorithm then retrieves all the available proxy implementations using the \textit{getProxies()} function. Next, a loop iterates through each proxy, and if the optional override parameter is not empty, it checks whether the current proxy is included in the override list. If the proxy is not in the list, it is skipped, and the loop continues to the next proxy.
 
-An empty \textit{scoreStore} is initialised to keep track of the calculated scores and the time taken for each proxy. The algorithm then retrieves all the available proxy implementations using the \textit{getProxies()} function. Next, a loop iterates through each proxy, and if the optional override parameter is not empty, it checks whether the current proxy is included in the override list. If the proxy is not in the list, it is skipped, and the loop continues to the next proxy.
-
-For each selected proxy, the algorithm records the start time. Then, it calculates the proxy score using the \textit{calculateProxy()} function with the model, data loader, and loss function as inputs. After calculating the score, the algorithm computes the time taken by subtracting the start time from the current time. Each proxy's calculated score and time are stored in the \textit{scoreStore}.
+For each selected proxy, the algorithm records the start time. Then, it calculates the proxy score using the \textit{calculateProxy()} function with the model, data loader, and loss function as inputs. After calculating the score, the algorithm computes the time taken by subtracting the start time from the current time. Each proxy's calculated score and time are stored in the \textit{score\_store}.
 

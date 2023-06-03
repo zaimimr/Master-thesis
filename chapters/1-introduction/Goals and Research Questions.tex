@@ -4,19 +4,19 @@ This section highlights the overall goal and the research questions of this thes
 
 \textbf{Goal} \textit{Improve and optimise the efficiency of neural architecture search with graph convolutional networks for human action recognition.} 
 
-\gls{NAS} has been used with \gls{GCN} in different studies \autocite{zhou2019auto, groos2022toward, peng2020learning}, but finding other, more efficient methods is still possible. If one can find ways far more effective than what exists today, more architectures can be researched, which may result in detecting other well-performing architectures. Also, as training and searching for neural networks may impact the environment, effective methods will significantly reduce the carbon footprint. 
+\gls{NAS} has been used with \gls{GCN} in different studies \autocite{zhou2019auto, groos2022toward, peng2020learning}, but finding other, more efficient methods is still possible. By finding methods that are more effective than what exists today, more architectures can be researched, which may result in detecting other well-performing architectures. Also, as training and searching for neural networks may impact the environment, effective methods will significantly reduce the carbon footprint. 
+
 
 \textbf{Research question 1} \textit{How well can different zero-cost proxies rank \gls{GCN} architectures compare to their validation accuracy?}
 
-Recent studies \autocite{abdelfattah2021zero, colin2022adeeperlook} show that zero-cost proxies yield great promise regarding using it to rank different architectures. However, to the authors´ knowledge, research is yet to be done on how zero-cost proxies perform on \gls{GCN} architectures. Evaluating the correlation between zero-cost proxies and ground truth validation accuracy can determine if they accurately indicate the ground truth.
-
+The motivation behind the research question is that evaluating the correlation between zero-cost proxies and ground truth validation accuracy can determine if they accurately indicate the ground truth. A potential enhancement to these results could make NAS algorithms more efficient by eliminating the necessity for exhaustive training.
 
 \textbf{Research Question 2} \textit{How early can we identify the correlation between zero-cost proxies and validation accuracy during the warm-up phase of \gls{GCN} training to potentially halt the training process sooner?}
 
 
-Research Question 2 aims to investigate the potential for early identification of the correlation between zero-cost proxies and validation accuracy during the warm-up phase of training for \gls{GCN}. In addition, this research question aims to determine if it is possible to score network before fully training it. 
+Research Question 2 aims to investigate the potential for early identification of the correlation between zero-cost proxies and validation accuracy during the warm-up phase of training for \gls{GCN}. The aim is to determine how early this correlation can be identified because it can halt the training process sooner, thus saving computational resources and time.
 
 
 \textbf{Research question 3} \textit{How can we effectively combine zero-cost proxies using various techniques to enhance the efficiency and accuracy of architecture search in \gls{NAS} algorithms?}
 
-Through investigating Research Question 3, the study aims to identify effective techniques for combining zero-cost proxies to enhance the efficiency and accuracy of architecture search. By leveraging the strengths of multiple zero-cost proxies, future \gls{NAS} algorithms may become more efficient and accurate in discovering high-performing architectures. The outcomes of this research question can provide insights into how to optimise the use of zero-cost proxies in \gls{NAS} algorithms and improve the architecture search process in the future.
+Through investigating Research Question 3, the study aims to identify effective techniques for combining zero-cost proxies. By leveraging the strengths of multiple zero-cost proxies, future \gls{NAS} algorithms may become more efficient and accurate in discovering high-performing architectures. The outcomes of this research question can provide insights into how to optimise the use of zero-cost proxies in \gls{NAS} algorithms and improve the architecture search process in the future.

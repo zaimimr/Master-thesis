@@ -2,9 +2,8 @@
 \addbibresource{thesis.bib}
 
 \input{glossary.tex} % add glossary and acronym lists before document
-
 \begin{document}
-\input{title}
+%\input{title}
 \input{chapters/0a-abstract}
 \input{chapters/0b-sammendrag}
 \input{chapters/0c-preface}
@@ -14,8 +13,8 @@
 \listoffigures
 \listoftables
 \listofalgorithms
-
-\printglossary[type=\acronymtype,nonumberlist] % Print acronyms
+\renewcommand{\glsnamefont}[1]{\textbf{#1}}
+\printglossary[type=\acronymtype,nonumberlist,style=super,nogroupskip] % Print acronyms
 \input{chapters/1-introduction}
 \input{chapters/2-theory}
 \input{chapters/3-related work}
@@ -25,4 +24,15 @@
 \input{chapters/7-conclusion}
 
 \printbibliography
+
+\cleardoublepage
+
+\setcounter{page}{1}
+\pagenumbering{roman}
+\addtocontents{toc}{\protect\setChapterprefix{Appendix }}
+\appendix
+\renewcommand{\chaptername}{Appendix}
+\input{appendices/a-appendix}
+
+
 \end{document}

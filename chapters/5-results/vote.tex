@@ -1,18 +1,18 @@
 
-\subsection{Vote}
+\subsection{Vote}\label{subsec:r_vote}
 
-After sorting, the results will only display the top-5 combinations as too many values will be shown. However, from the results shown in \cref{tab:vote}, all combinations of metrics exhibit almost the same custom correlation measure (majority vote score) of $ > 0.788$. This suggests that these combinations of metrics perform similarly in terms of the agreement between the majority of metrics and accuracy differences.
+The results will only display the top-5 combinations, as showing all possible variations would not be feasible. From the results shown in \cref{tab:vote}, the top-performing combinations of metrics exhibit almost the same custom correlation measure (majority vote score) of $ > 0.788$. This suggests that these combinations of metrics perform similarly in terms of the agreement between the majority of metrics and accuracy differences.
 
 \begin{table}[h!]
 \caption{Vote scores}
 \centering
 \begin{tabular}{ll}
-\textbf{Name} & \textbf{Value} \\ \hline
-\multicolumn{1}{l|}{synflow, zen, fisher} & \textbf{0.7899} \\
-\multicolumn{1}{l|}{\cellcolor{verylightgray}synflow, zen, nwot} & \cellcolor{verylightgray}$0.7888$ \\
-\multicolumn{1}{l|}{synflow, zen, flops} & $0.7885$ \\
-\multicolumn{1}{l|}{\cellcolor{verylightgray}synflow, zen, plain} & \cellcolor{verylightgray}$0.7883$ \\
-\multicolumn{1}{l|}{synflow, zen, grad\_norm} & $0.7883$ \\
+\textbf{ZC-proxies} & \textbf{Value} \\ \hline
+\multicolumn{1}{l|}{Synflow, Zen, Fisher} & \textbf{0.7899} \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}Synflow, Zen, NAS-WOT} & \cellcolor{verylightgray}$0.7888$ \\
+\multicolumn{1}{l|}{Synflow, Zen, Flops} & $0.7885$ \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}Synflow, Zen, Plain} & \cellcolor{verylightgray}$0.7883$ \\
+\multicolumn{1}{l|}{Synflow, Zen, Grad Norm} & $0.7883$ \\
 \end{tabular}
 \label{tab:vote}
 \end{table}

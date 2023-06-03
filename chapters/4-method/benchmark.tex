@@ -1,8 +1,8 @@
 \section{Benchmark}
-Within \gls{NAS}, a benchmark is a collection of already trained and evaluated models that can be queried to obtain their validation accuracy. Such benchmarks are crucial for research within \gls{NAS}, as they spare the researchers thousands of \gls{GPU} training time. Popular benchmarks within the literature are NAS-Bench-101 \autocite{ying2019bench}, NAS-Bench-201 \autocite{dong2020bench} and NAS-Bench-360 \autocite{tu2021bench}. These benchmarks contain thousand of trained and evaluated models on different datasets. However, to our knowledge, no similar benchmarks exist for \gls{GCN} within \gls{HAR}. Consequently, a benchmark had to be created for later experiments in the thesis. \Cref{sec:gcn-nas} highlights how the framework used for generating and training models works in detail, \cref{sec:full_trained} goes into how the authors define a fully trained model and \cref{subsec:experimentalsetup} explains the basic methodology behind the creation of the benchmark.       
+Within \gls{NAS}, a benchmark is a collection of already trained and evaluated models that can be queried to obtain their validation accuracy. Such benchmarks are crucial for research within \gls{NAS}, as they spare the researchers thousands of \gls{GPU} training time. Popular benchmarks within the literature are NAS-Bench-101 \autocite{ying2019bench}, NAS-Bench-201 \autocite{dong2020bench} and NAS-Bench-360 \autocite{tu2021bench}. These benchmarks contain thousand of trained and evaluated models on different datasets. However, to our knowledge, no similar benchmarks exist for \gls{GCN} within \gls{HAR}. Consequently, a benchmark had to be created for later experiments in the thesis.      
 
 \subsection{GCN-NAS}\label{sec:gcn-nas}
-To create the benchmark, the authors used the framework in the paper Learning Graph Convolutional Network for Skeleton-Based Human Action Recognition by Neural Searching \autocite{peng2020learning}. The framework provides ways to train individual models and run the provided \gls{NAS} algorithm to find the best architectures for a given problem. In addition, the framework is developed to be used on the \gls{ntu-rgbd} dataset.  
+The framework from the paper Learning Graph Convolutional Network for Skeleton-Based Human Action Recognition by Neural Searching \autocite{peng2020learning} was used to create the benchmark. This approach offers ways to train individual models and run the provided \gls{NAS} algorithm to find the best architectures for a given problem. In addition, the framework is developed to be used on the \gls{ntu-rgbd} dataset.  
 
 The search space consists of eight function modules that can be applied in each network layer. To extract features $U$ from a given node in a graph, the filter $g_{\theta}$ is approximated using Chebyshev polynomials with $R\text{-th}$ order. The more significant $R$, the bigger the local receptive field of the \gls{GCN} layer will be. Chebyshev polynomial is recursive and is given in \cref{eq:chebyshev}. 
 
@@ -11,7 +11,7 @@ The search space consists of eight function modules that can be applied in each 
     \label{eq:chebyshev}
 \end{equation}
 
-In which $ \theta_r'$ is the Chebyshev coefficient. Recursively, the Chebyshev polynomial $T_r(\hat{L})$ is defined by \cref{eq:cheb}. 
+in which $ \theta_r'$ is the Chebyshev coefficient. Recursively, the Chebyshev polynomial $T_r(\hat{L})$ is defined by \cref{eq:cheb}. 
 
 \begin{equation}
     \bm{T_r}(\bm{\hat{L}}) = 2 \bm{\hat{L}}\bm{T_{r-1}} (\bm{\hat{L}}) - \bm{T_{r-2}}(\bm{\hat{L}}),
@@ -31,19 +31,20 @@ where $T_0$ = 1 and $t_1 = \hat{L}$. In the framework, $\hat{L}$ is normalised t
 
 Similarly, $\theta^{'}$ can be approximated with a unified parameter $\theta$; this means that instead of using a separate parameter for $\theta^{'}$, it can be estimated using a single parameter, $\theta$, which will be a simplified representation of $\theta^{'}$. Then, Y is given by \cref{eq:y_final}. 
 
-\begin{equation*}
+\begin{equation}
 \bm{Y} = \theta (\bm{I_n} + \bm{D}^{-\frac{1}{2}}\bm{A}\bm{D}^{-\frac{1}{2}})\bm{X}
 \label{eq:y_final}
-\end{equation*}
+\end{equation}
 
 Given the available search space, the networks may have different combinations of R-th order Chebyshev-polynomials. Intuitively, using higher R-th order, the filters of each layer will be able to aggregate more information from the neighbours as the hops increase. 
 
 In addition, the search space consists of three dynamic graph modules; spatial, temporal and spatial-temporal. The composition of the joints in a single frame is referred to as a spatial feature, and it is commonly represented as a set of 3D coordinates. These spatial features capture the posture and pose of the human body at a given time point, but they do not capture the motion over time. On the other hand, temporal features capture how spatial features change over time. Through a series of frames, these features capture movement and action information. Finally, spatial-temporal features combine the spatial and temporal aspects to capture both the posture and dynamics of motion over time.  
 
-To illustrate, \cref{fig:found_architecture} shows the best-performing architecture searched in the paper. 
+To illustrate, \cref{fig:found_architecture} shows the best-performing architecture found in \cite{peng2020learning}. The table illustrates that the different layers of the architecture prefer different mechanisms. For instance, the lower layers prefer all the dynamic modules, whereas the deeper layers prefer the temporal representation correlations \autocite{peng2020learning}. 
+
 \clearpage
 
-\begin{table}[h!]
+\begin{table}[ht]
 \centering
 \caption{The searched architecture in the paper}
 \begin{tabular}{lllllllll}
@@ -63,15 +64,13 @@ M & $L$ & $L^4_n$ & $L^4$ & $L^3$ & $L^2$ & $M(S)$ & $M(T)$ & $M(ST)$ \\ \hline
 \label{fig:found_architecture}
 \end{table}
 
-\Cref{fig:found_architecture} illustrates that the different layers of the architecture prefer different mechanisms. For instance, the lower layers prefer all the dynamic modules, whereas the deeper layers prefer the temporal representation correlations \autocite{peng2020learning}. 
-
 \subsection{Definition of Fully Trained Models}\label{sec:full_trained}
 
 Defining what constitutes a fully trained model is essential in the benchmark development context. Due to time and hardware resource limitations, a balance must be struck between training the models for optimal duration and ensuring the process remains feasible within the given constraints. 
 
-A threshold was determined based on the trade-offs between computational cost, training time and model performance. By setting this upper limit, it was possible to maintain a reasonable training duration while still allowing the models to reach a  satisfactory level of performance. In the paper that introduced the framework, the authors \autocite{peng2020learning} opted to conclude the training process at 70 epochs, a practice adopted in the thesis.
+A threshold was determined based on the trade-offs between computational cost, training time and model performance. By setting this upper limit, it was possible to maintain a reasonable training duration while still allowing the models to reach a  satisfactory level of performance. In the paper that introduced the framework, the authors \autocite{peng2020learning} decided to stop the training process at 70 epochs, a practice adopted in this thesis.
 
-Although the imposed threshold may not guarantee that every model reaches its absolute peak performance, it ensures that each model is trained sufficiently to compare relative performances. Furthermore, this definition of "fully trained" facilitates the efficient generation and evaluation of many models, which is crucial for successful benchmark development.
+Although the imposed threshold may not guarantee that every model reaches its absolute peak performance, it ensures that each model is trained sufficiently to compare relative performances. Furthermore, this definition of "fully trained" (up to 70 epochs) facilitates the efficient generation and evaluation of many models, which is crucial for successful benchmark development.
 
 
 
@@ -103,10 +102,9 @@ To generate random architectures, the framework described in \cref{sec:gcn-nas} 
 \end{algorithm}
 
 
-\clearpage
 The following hyperparameters were used for the training process: 
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \caption{Hyperparameters for the training}
 \begin{tabular}{ll}
@@ -115,17 +113,15 @@ The following hyperparameters were used for the training process:
 \multicolumn{1}{l|}{\cellcolor{verylightgray}base learning rate} & \cellcolor{verylightgray}$0.1$              \\
 \multicolumn{1}{l|}{step}               & ${[}30, 45, 60{]}$ \\
 \multicolumn{1}{l|}{\cellcolor{verylightgray}batch size}         & \cellcolor{verylightgray}$40$               \\
-\multicolumn{1}{l|}{test batch size}    & $20$               \\
-\multicolumn{1}{l|}{\cellcolor{verylightgray}num. epochs}        & \cellcolor{verylightgray}$70$               \\
-\multicolumn{1}{l|}{nesterov}           & true            
+\multicolumn{1}{l|}{num. epochs}  & {$70$}
 \end{tabular}
 \end{table}
 
 It should be noted that while previous work in this field has utilised significantly larger benchmark datasets, time and hardware constraints necessitated limiting the scope of this benchmark to produce baseline results.
 
-To provide insight into the characteristics of the benchmark dataset, \cref{tab:benchmark_stats} displays the minimum, average, and maximum values for training time and validation accuracy. Additionally, the number of layers in each architecture is provided.
+To provide insight into the characteristics of the benchmark dataset, \cref{tab:benchmark_stats} displays the minimum, average, and maximum values for training time and validation accuracy. 
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \caption{Benchmark Dataset Statistics}
     \begin{tabular}{lrrr}

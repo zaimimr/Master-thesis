@@ -1,12 +1,12 @@
 \section{Environmental Implications}
 \subsection{Energy consumption / Creating benchmark}
 
-As elaborated in \cref{subsec:experimentalsetup}, 693 neural network architectures were trained and evaluated to obtain their validation accuracy for later use in experiments. The training process required a significant investment of computational resources, and multiple \glspl{GPU} were used to complete the training. A Python script was utilised to capture the total training time in seconds to measure the training time for each architecture accurately.
+As elaborated in \cref{subsec:experimentalsetup}, 693 neural network architectures were trained and evaluated to obtain their validation accuracy for later use in experiments. The training process required a significant investment of computational resources. A script was utilised to capture the total training time in seconds to measure the training time for each architecture accurately.
 
-\begin{equation*} 32833726.233713627 \div 3600 = 9120.4795093649 \end{equation*}
+The total training time, represented by $T$, was captured to be 32833726 seconds. To provide a more comprehensible measure, the seconds were converted into \gls{GPU} days, where one \gls{GPU} day represents the continous use of a single \gls{GPU} for 24 hours. By dividing $T$ by the number of seconds in an hour (3600), and then again by the number of hours in a day (24), we could obtain the number of \gls{GPU} days:
 
 \begin{equation*}
-    9120.4795093649 \div 24 = 380
+    \text{GPU days} = \frac{T}{3600 \times 24} = \frac{32833726}{3600 \times 24 } \approx 380
 \end{equation*}
 
 So in total, 380 \gls{GPU} days were used to obtain the benchmark for the experiments. 
@@ -17,4 +17,4 @@ For contextual comparison, NASBench-101 is a benchmark for \gls{NAS} introduced 
 
 Creating a benchmark involves substantial time and energy investments, as demonstrated in this study and other benchmarks \autocite{dong2020bench, ying2019bench, tu2021bench}. In addition, training and evaluating diverse neural network architectures requires significant computational resources, leading to increased energy consumption and longer training durations. Therefore, although the research required a considerable investment in \gls{GPU} days, the long-term benefits of this investment should be considered. 
 
-The most naive approach for any general \gls{NAS} algorithm is to generate a set of candidate architectures, train them until convergence, and find the best-performing architecture. However, this approach is computationally infeasible when the search space is ample. In addition, this specific approach exhibits a substantial carbon footprint because of its extensive usage of \gls{GPU} days. This study and similar studies \autocite{abdelfattah2021zero, colin2022adeeperlook} have discussed how zero-cost proxies might be used within a \gls{NAS} algorithm to speed up the search process significantly. Consequently, creating a benchmark for exploring the possibilities of reducing the computationally heavy search process should be considered as a small investment for a more significant impact. The investment can be perceived as a stepping stone towards developing more efficient and sustainable approaches in the long run.
+The most naive approach for any general \gls{NAS} algorithm is to generate a set of candidate architectures, train them until convergence, and find the best-performing architecture. However, this approach is computationally infeasible with a large search space dimension. In addition, this specific approach exhibits a substantial carbon footprint because of its extensive usage of \gls{GPU} days. This study and similar studies \autocite{abdelfattah2021zero, colin2022adeeperlook} have discussed how zero-cost proxies might be used within a \gls{NAS} algorithm to speed up the search process significantly. Consequently, creating a benchmark for exploring the possibilities of reducing the computationally heavy search process should be considered as a small investment for a more significant impact. The investment can be perceived as a stepping stone towards developing more efficient and sustainable approaches in the long run.

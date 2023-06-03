@@ -1,7 +1,12 @@
 \section{Exploration of Zero-Cost Proxies via Warmup Strategy}
 \subsection{Theoretical and Practical Considerations}
 
-The primary objective of \gls{NAS} is to discover high-performing architectures while minimising computational overhead. Training numerous architectures for a large number of epochs is computationally prohibitive. Training architectures for a limited number of epochs may be a more viable approach. In this context, the authors introduce the concept of a warmup strategy in this study, which aims to determine an optimal epoch threshold that can provide a reliable estimation of the relative performance of different architectures.
+\begin{comment}
+    
+The primary objective of \gls{NAS} is to discover high-performing architectures while minimising computational overhead. Training numerous architectures for a large number of epochs is computationally prohibitive. Training architectures for a limited number of epochs may be a more viable approach. In this context, we introduce the concept of a warmup strategy in this study, which aims to determine an optimal epoch threshold that can provide a reliable estimation of the relative performance of different architectures.
+\end{comment}
+
+In this section, we introduce the concept of a warmup strategy, which aims to determine an optimal epoch threshold that can provide a reliable estimation of the relative performance of different architectures. This contrast with the naive NAS approach of training numerous architectures, which can be computationally prohibitive. 
 
 The underlying principle for this strategy is based on the assumption that training an architecture for $x$ epochs offers a more efficient evaluation than training the same architecture for $y$ epochs if $x < y$. By identifying an appropriate warmup threshold, researchers can effectively balance the trade-off between computational expense and the accuracy of architecture performance estimation.
 

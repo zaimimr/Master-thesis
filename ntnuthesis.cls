@@ -146,7 +146,7 @@
 
 %\RequirePackage[numbers]{natbib}
 \RequirePackage{tikz}
-\usetikzlibrary{shapes, shapes.multipart, positioning, arrows.meta}
+\usetikzlibrary{shapes, shapes.multipart, positioning, arrows.meta, fit, calc}
 % \usetikzlibrary{shapes.geometric, arrows.meta, positioning}
 
 \RequirePackage{parskip}
@@ -356,7 +356,6 @@
 \newcommand{\kommentar}[2]{%
     \noindent
     \begin{tcolorbox}[
-        enhanced, % Enable advanced features
         colframe=black, % Border color
         colback=yellow, % Background color
         arc=4pt, % Border radius
@@ -373,7 +372,6 @@
     \else
         \noindent
         \begin{tcolorbox}[
-            enhanced, % Enable advanced features
             colframe=black, % Border color
             colback=white, % Background color
             boxrule=0.8pt, % Border thickness
@@ -390,3 +388,24 @@
 
 \renewcommand{\algorithmiccomment}[1]{\hfill\textit{/* #1 */}}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+
+\makeatletter
+\def\setChapterprefix#1{\gdef\@Prefix{#1}}
+\setChapterprefix{}
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      \@Prefix 
+      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+    \makeatother

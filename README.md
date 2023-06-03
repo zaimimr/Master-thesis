@@ -22,3 +22,28 @@ There are two ways for setting up the [**Overleaf**](http://overleaf.com) projec
 ### Building document locally
 
 The template also provides a simple `Makefile` which allows you to build the document locally. This requires that you have a LaTeX compiler, such as [`texlive`](https://www.tug.org/texlive/), installed locally, which has to provide the commands `pdflatex` and `biber`.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      node distance=1cm,
+      process/.style={rectangle, rounded corners, minimum width=4cm, minimum height=1.5cm, text width=3.6cm, align=center, draw=black},
+      process1/.style={process, fill=gray!20},
+      process2/.style={process, fill=gray!50},
+      arrow/.style={thick,->,>=stealth, line width=1.5pt, draw=gray}
+    ]
+
+    \node (step1) [process1] {Generate Random Architectures};
+    \node (step2) [process2, below=of step1] {Conduct Comprehensive Training on Architectures for Benchmarking};
+    \node (step3) [process1, below=of step2] {Establish Zero-Cost Proxy Framework};
+    \node (step4) [process2, below=of step3] {Collect Data on Zero-Cost Proxies Performance};
+    \node (step5) [process1, below=of step4] {Perform Quantitative Analysis Using Collected Data};
+
+    \draw [arrow] (step1) -- (step2);
+    \draw [arrow] (step2) -- (step3);
+    \draw [arrow] (step3) -- (step4);
+    \draw [arrow] (step4) -- (step5);
+  \end{tikzpicture}
+  \caption{Flowchart illustrating the research process.}
+  \label{fig:research_flowchart}
+\end{figure}

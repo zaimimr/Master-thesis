@@ -1,10 +1,10 @@
 \section{Zero-Cost Proxies}\label{zcproxies}
 
-Zero-cost proxies in general and their purpose were discussed in \cref{zcproxies}. This section aims to provide a comprehensive overview of the different zero-cost proxies implemented in the project and clarify their respective methodologies.
+This section aims to provide a comprehensive overview of the different zero-cost proxies implemented in the project and clarify their respective methodologies.
 
 
 \subsection{EPE-NAS}
-EPE-NAS is a method to estimate an untrained architecture without requiring any training. The main idea behind the method is to assess how the network's gradients behave concerning the neural network's input. Thus, the need for training an entire network is eliminated \autocite{lopes2021epe}. 
+The main idea behind EPE-NAS is to assess how the network's gradients behave concerning the neural network's input. Thus, the need for training an entire network is eliminated \autocite{lopes2021epe}. 
 
 A linear map is defined as $w_i = f(x_i)$, in which $x_i$ is a sample from a batch $X$. The linear map can be computed by \cref{eq:linear}. 
 
@@ -77,61 +77,63 @@ where $M$ is the length of the vectorised feature map, and  $S_z$ is the salienc
 
 By mapping all the different layers of the network, the activations can be captured and used to score the network.  
 
-\subsection{FLOPs}
-\glsreset{FLOPs}
+\subsection{Flops}
+% \glsreset{FLOPs}
 As a zero-cost proxy, \Gls{FLOPs} is one of the simpler baselines as it simply goes through the model and calculates the number of floating point operations performed per second required to pass the input through the network. Therefore it could be considered a measure of the architecture's complexity \autocite{ning2021evaluating}. 
-
 
 \subsection{Grad Norm}
 The Gradient Norm is a straightforward zero-cost proxy that computes the sum of the Euclidean norms of gradients after conducting a single forward and backward pass using a minibatch of training data \autocite{abdelfattah2021zero}. Given a vector of gradients \(G = [g_1, g_2, ..., g_n]\), the gradient norm is calculated according to the formula presented in \cref{eq:gradnorm}.
 
 \begin{equation}\label{eq:gradnorm}
-\text{gradient norm} = \sum_{i=1}^n \sqrt{g_i^2}
+    s = \sum_{i=1}^n \sqrt{g_i^2}
 \end{equation}
 
 
 \subsection{GradSign}
-GradSign uses the network's initial gradients like many other zero-cost proxies do. However, the proxy's central concept uses $\Psi$ to examine the optimisation landscape of various networks at the level of specific training samples. Thus, GradSign differs from most other gradient-based methods because of its theoretical insights. Under plausible assumptions, these theoretical results show that a network with denser sample-wise local optima has lower training and generalisation losses.
+GradSign uses the network's initial gradients like many other zero-cost proxies do. However, the proxy's central concept uses $\Psi$(psi) to examine the optimisation landscape of various networks at the level of specific training samples. Thus, GradSign differs from most other gradient-based methods because of its theoretical insights. Under plausible assumptions, these theoretical results show that a network with denser sample-wise local optima has lower training and generalisation losses.
 
-The calculation of $\Psi$ is often deemed computationally infeasible for modern networks. To tackle this issue, the authors propose GradSign, which approximates $\Psi$. This method takes as input a mini-batch of sample-wise gradients that are evaluated at a randomly initialised point. Using this input, the method produces statistical evidence strongly associated with the well-trained predictive performance of the network, as measured by its accuracy on the entire dataset \autocite{zhang2021gradsign}. 
+The calculation of $\Psi$ is often considered computationally infeasible for modern networks. To tackle this issue, the authors propose GradSign, which approximates $\Psi$. This method takes as input a mini-batch of sample-wise gradients that are evaluated at a randomly initialised point. Using this input, the method produces statistical evidence strongly associated with the well-trained predictive performance of the network, as measured by its accuracy on the entire dataset \autocite{zhang2021gradsign}. 
 
 
-\subsection{GRASP}
+\subsection{Grasp}
 \glsreset{GRASP}
-Like \gls{SNIP}, \gls{GRASP} is a pruning-at-initialisation technique. The authors argue that efficient training depends on preserving the gradient flow, from which the name gradient signal preservation comes. Therefore, \gls{GRASP} aims at finding the sub-networks as initialisation rather than after training. This is done by pruning the weights whose removal will cause a minor fall in the gradient norm after pruning \autocite{wang2020picking}. 
+\gls{GRASP} is one of the pruning-at-initialisation techniques. \cite{wang2020picking} argue that efficient training depends on preserving the gradient flow, from which the name gradient signal preservation comes. Therefore, \gls{GRASP} aims at finding the sub-networks as initialisation rather than after training. This is done by pruning the weights whose removal will cause a minor fall in the gradient norm after pruning \autocite{wang2020picking}. 
 
 
 \subsection{Jacov}
 The Jacov-score is a zero-cost proxy that estimates architecture performance by analysing the gradient correlation structure in a neural network's output space \autocite{jacob_conv}. The Jacov-score is computed using the eigenvalues of the correlation matrix of the batch Jacobian, as shown in \cref{eq:jacov}. 
 
 \begin{equation}
-\text{Jacov-score}=-\sum_i \left( \log(v_i+k)+\frac{1}{v_i+k}\right)
+    s =-\sum_i \left( \log(v_i+k)+\frac{1}{v_i+k}\right)
 \label{eq:jacov}
 \end{equation}
 
 where $k$ is a small constant. The Jacov-score offers an efficient performance evaluation in \gls{NAS} without extensive computation.
 
-\subsection{l2-norm}
+\subsection{L2-norm}
 L2-norm is calculated by summing over the norm of all weights of each layer in a neural network. 
 
 
 \subsection{NAS-WOT}
 
-\autocite{jacob_conv} derived a metric by investigating linear maps of binary activation codes from the overlapping ReLU present at initialisation. These linear maps provide insight into how the network divides the input space.
+\cite{jacob_conv} derived a metric by investigating linear maps of binary activation codes from the overlapping ReLU present at initialisation. These linear maps provide insight into how the network divides the input space.
 
 The intuition is that the more similar the binary codes associated with two inputs are, the more challenging it is for the network to learn to separate them. When two inputs have the same binary code, they lie within the same linear region of the network and are particularly difficult to disentangle \autocite{jacob_conv}.
 
 Let's consider a mini-batch of data $X = \{x_i\}^N_{i=1}$ mapped through a neural network as $f(x_ii)$. We can define an indicator variable $c_i$, forming a binary code defining a linear region. Using the binary codes, we can use Hamming distance $d_H(c_i, c_j)$ to measure how different the two inputs are \autocite{jacob_conv}.
 
-The correspondence between binary codes in the mini-batch can be computed with the kernel matrix
+The correspondence between binary codes in the mini-batch can be computed with the kernel matrix, as given in \cref{eq:naswot}.
+
 \begin{equation} 
 K_H = \begin{bmatrix} 
         N_A-d_H(c_1, c_1) & \dots & N_A-d_H(c_1, c_N) \\ 
         \vdots & \ddots & \vdots \\ 
         N_A-d_H(c_N, c_1) & \dots & N_A-d_H(c_N, c_N)
-    \end{bmatrix} 
+    \end{bmatrix}, 
+    \label{eq:naswot}
 \end{equation}
 where $N_A$ is the number of ReLU activations in the network. Then the final score metric $s$ is derived from the logarithm of the kernel norm at initialisation. 
+
 \begin{equation}
 s = |log|K_H||
 \end{equation}
@@ -146,9 +148,9 @@ Within a neural network, there exist several trainable parameters, which, simila
 \subsection{Plain}
 The Plain-score is simply looping through all layers of the network. If the layer's weight contains a gradient, the gradient is multiplied by the layer's weights. Ultimately, the method is summing the scores to obtain the final score. 
 
-\subsection{SNIP}
+\subsection{Snip}
 \glsreset{SNIP}
-The \gls{SNIP} method was introduced by \autocite{lee2018snip} as a pruning-at-initialisation technique, aiming to reduce the number of parameters within a neural network without affecting the accuracy during inference \autocite{frankle2020pruning}. The authors proposed a data-dependent saliency criterion that identifies significant connections in the network related to the current task before training. This approach enables the pruning of redundant connections, thus reducing the neural network's parameter count. The connections are identified based on their influence on the loss function.
+The \gls{SNIP} method was introduced by \autocite{lee2018snip} as a pruning-at-initialisation technique, aiming to reduce the number of parameters within a neural network without affecting the accuracy during inference \autocite{frankle2020pruning}. \cite{frankle2020pruning} proposed a data-dependent saliency criterion that identifies significant connections in the network related to the current task before training. This approach enables the pruning of redundant connections, thus reducing the neural network's parameter count. The connections are identified based on their influence on the loss function.
 
 \noindent In the paper Zero-Cost Proxies for Lightweight \gls{NAS} \autocite{abdelfattah2021zero}, \gls{SNIP} was repurposed as a zero-cost proxy. The score of the neural network was obtained by summing all parameters $N$ in the model according to \cref{eq:sumsnip},
 
@@ -179,7 +181,6 @@ S(\theta) = \frac{\partial R}{\partial \theta} \odot \theta
 where $R$ is a scalar loss function of the output $y$ of a feed-forward network parameterized by $\theta$ \autocite{tanaka2020pruning}. The conservation of synaptic saliency theorem demonstrates that the sum of synaptic saliency for all incoming parameters to a hidden neuron equals the sum of the synaptic saliency for the outgoing parameters from the hidden neuron \autocite{tanaka2020pruning}. Consequently, the sum of synaptic saliency for all incoming parameters to a hidden layer equals the sum of the synaptic saliency for the outgoing parameters from the hidden layer. This can lead to issues when performing one-shot pruning, where a larger layer would have parameters with lower synaptic saliency. In comparison, a smaller layer would have parameters with higher synaptic saliency. Pruning one of the parameters for a smaller layer would result in pruning almost all the parameters in a larger layer to compensate for the conservation of synaptic saliency, leading to layer collapse.
 
 \noindent To prevent this, \gls{Synflow} introduces iterative pruning (magnitude pruning) by recalculating the synaptic saliency for all parameters at each iteration. This re-evaluation process gives new scores to parameters with lower scores in previous iterations, eliminating the imbalance between smaller and larger layers and reducing the possibility of layer collapse.
-
 \noindent The \gls{Synflow} algorithm is described in \cref{eq:synflowalg}:
 
 \begin{equation}\label{eq:synflowalg}
@@ -198,7 +199,7 @@ However, numerical overflow may occur for deep networks when directly calculatin
 
 \Cref{tab:summary_zc} displays an overall view of the discussed zero-cost proxies, with the characteristics of each method's data dependence, data independence and type outlined. 
 
-\begin{table}[h!]
+\begin{table}[htbp]
 \centering
 {\footnotesize
 \caption{Summary of the implemented zero-cost proxies in the project}
@@ -208,7 +209,7 @@ However, numerical overflow may occur for deep networks when directly calculatin
 \multicolumn{1}{l|}{Fisher} & \checkmark  &  & Pruning-at-init  \\
 \multicolumn{1}{l|}{\cellcolor{verylightgray}Flops} & \cellcolor{verylightgray} \checkmark & \cellcolor{verylightgray} & \cellcolor{verylightgray} Baseline \\
 \multicolumn{1}{l|}{GradNorm} & \checkmark &  & Pruning-at-init  \\
-\multicolumn{1}{l|}{\cellcolor{verylightgray}GradSign} & \cellcolor{verylightgray} \checkmark & \cellcolor{verylightgray} & \cellcolor{verylightgray} \textit{Gradient Sign} \\
+\multicolumn{1}{l|}{\cellcolor{verylightgray}GradSign} & \cellcolor{verylightgray} \checkmark & \cellcolor{verylightgray} & \cellcolor{verylightgray} Gradient Sign \\
 \multicolumn{1}{l|}{Grasp} & \checkmark  &  & Pruning-at-init  \\
 \multicolumn{1}{l|}{\cellcolor{verylightgray}Jacov} & \cellcolor{verylightgray} \checkmark & \cellcolor{verylightgray} & \cellcolor{verylightgray} Jacobian \\
 \multicolumn{1}{l|}{L2-norm} &  & \checkmark  & Baseline  \\

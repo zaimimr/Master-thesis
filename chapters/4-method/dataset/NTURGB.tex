@@ -1,15 +1,70 @@
 \glsreset{ntu-rgbd}
-\Gls{ntu-rgbd} is a large-scale dataset for human activity analysis. It contains over 56 thousand video samples and 4 million frames. The NTU RGB+D dataset contains 60 action classes such as drinking, eating, staggering, punching and kicking \autocite{Shahroudy_2016_CVPR}. 
+\Gls{ntu-rgbd} is a large-scale dataset for \gls{HAR}. It contains over 56 thousand video samples and 4 million frames. The NTU RGB+D dataset contains 60 action classes such as drinking, eating, staggering, punching and kicking \autocite{Shahroudy_2016_CVPR}. 
 
 The dataset is collected using Microsoft Kinect v2 sensors, in which they collected four modalities: depth maps, 3D joint information, RGB frames and IR sequences. In total, 25 body joints were captured in the dataset, in which each body joint is represented by x-coordinates, y-coordinates and depth \autocite{Shahroudy_2016_CVPR}. The body joints are illustrated in \cref{fig:ntu_body_joints}. 
 
-\begin{figure}[!ht]
+\clearpage
+
+\begin{figure}
     \centering
-    \includegraphics[width=5cm]{figures/nturgb.drawio.png}
-    \caption{1-base of the spine, 2-middle of the spine; 3-neck, 4-head, 5-left shoulder, 6-left elbow, 7-left wrist, 8-left hand, 9-right shoulder, 10-right elbow, 11-right wrist, 12-right hand, 13-left hip, 14-left knee, 15-left ankle, 16-left foot, 17-right hip, 18-right knee, 19-right ankle, 20-right foot, 21-spine, 22-tip of the left hand, 23-left thumb, 24-tip of the right hand, 25-right thumb}
+
+    \begin{tikzpicture}[ every node/.style={circle, text centered, draw=black, minimum size=0.5cm, fill=verylightgray, font=\scriptsize}, node distance=0.5cm]
+        \node (4) {4};
+        \node (3) [below=of 4] {3};
+        \node (21) [below=of 3] {21};
+        \node (9) [left=of 21] {9};
+        \node (5) [right=of 21] {5};
+        \node (10) [below=of 9, xshift=-1cm] {10};
+        \node (6) [below=of 5, xshift=1cm] {6};
+        \node (2) [below=of 21, yshift=-1cm] {2};
+        \node (1) [below=of 2, yshift=-1cm] {1};
+        \node (13) [right=of 1] {13};
+        \node (17) [left=of 1] {17};
+        \node (18) [below=of 17] {18};
+        \node (19) [below=of 18] {19};
+        \node (14) [below=of 13] {14};
+        \node (15) [below=of 14] {15};
+        \node (20) [below=of 19, xshift=-0.5cm] {20};
+        \node (16) [below=of 15, xshift=0.5cm] {16};
+        \node (11) [below=of 10, xshift=-0.5cm]{11};
+        \node (7) [below=of 6, xshift=0.5cm] {7};
+        \node (12) [below=of 11, xshift=-0.25cm]{12};
+        \node (8) [below=of 7, xshift=0.25cm] {8};
+        \node (25) [below=of 12, xshift=-0.75cm, yshift=0.5cm] {25};
+        \node (24) [below=of 12, xshift=0.25cm, yshift=0.25cm] {24};
+        \node (22) [below=of 8, xshift=0.75cm, yshift=0.5cm] {22};
+        \node (23) [below=of 8, xshift=-0.25cm, yshift=0.25cm] {23};
+
+        \draw (4) -- (3);
+        \draw (3) -- (21);
+        \draw (21) -- (9);
+        \draw (21) -- (5);
+        \draw (9) -- (10);
+        \draw (10) -- (11);
+        \draw (11) -- (12);
+        \draw (12) -- (25);
+        \draw (12) -- (24);
+        \draw (5) -- (6);
+        \draw (6) -- (7);
+        \draw (7) -- (8);
+        \draw (8) -- (22);
+        \draw (8) -- (23);
+        \draw (21) -- (2);
+        \draw (2) -- (1);
+        \draw (1) -- (17);
+        \draw (1) -- (13);
+        \draw (17) -- (18);
+        \draw (18) -- (19);
+        \draw (19) -- (20);
+        \draw (13) -- (14);
+        \draw (14) -- (15);
+        \draw (15) -- (16);
+    \end{tikzpicture}
+        \caption[Body joints in NTU RGB+D dataset]{1-base of the spine, 2-middle of the spine; 3-neck, 4-head, 5-left shoulder, 6-left elbow, 7-left wrist, 8-left hand, 9-right shoulder, 10-right elbow, 11-right wrist, 12-right hand, 13-left hip, 14-left knee, 15-left ankle, 16-left foot, 17-right hip, 18-right knee, 19-right ankle, 20-right foot, 21-spine, 22-tip of the left hand, 23-left thumb, 24-tip of the right hand, 25-right thumb}
     \label{fig:ntu_body_joints}
 \end{figure}
 
-The NTU RGB+D dataset was later expanded into a new one named NTU RGB+D 120. The new dataset contains 114 480 video samples of 120 action classes, all from 106 separate human subjects. 
 
-The NTU RGB+D dataset has been employed in numerous studies, making it a well-established choice for research in the field of \gls{HAR} \autocite{yan2018spatial, si2019attention, cheng2020skeleton}. The dataset's large scale and diverse range of activities facilitate the training of models with high generalisation capabilities, which aligns with the goals of this study in achieving optimal final validation accuracy. Given the dataset's widespread application and success in \gls{HAR}-related research, it is an appropriate foundation for this investigation.
+The NTU RGB+D dataset was later expanded into NTU RGB+D 120. The new dataset contains 114 480 video samples of 120 action classes, all from 106 separate human subjects. 
+
+The NTU RGB+D dataset has been employed in numerous studies, making it a well-established choice for research in the field of \gls{HAR} \autocite{yan2018spatial, si2019attention, cheng2020skeleton}. The dataset's large scale and diverse range of activities facilitate the training of models with high generalisation capabilities, which aligns with the goals of this study in achieving optimal final validation accuracy. Given the dataset's widespread application and success in \gls{HAR}-related research, it is an appropriate foundation for this study.
